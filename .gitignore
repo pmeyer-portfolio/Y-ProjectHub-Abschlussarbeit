@@ -27,6 +27,7 @@ x86/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
 bld/
+
 [Bb]in/
 [Oo]bj/
 [Ll]og/
@@ -38,7 +39,8 @@ bld/
 #wwwroot/
 
 # Visual Studio 2017 auto generated files
-Generated\ Files/
+**/Properties/serviceDependencies.local.json
+
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
