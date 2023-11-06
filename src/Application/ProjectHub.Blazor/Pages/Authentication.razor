@@ -1,7 +1,9 @@
-﻿@page "/authentication/{action}"
+﻿@using ProjectHub.Blazor.Constants
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
-<RemoteAuthenticatorView Action="@Action" />
+@attribute [Route(ProjectHubRoute.Authentication)]
+@attribute [AllowAnonymous]
 
-@code{
-    [Parameter] public string? Action { get; set; }
-}
+<RemoteAuthenticatorView
+    Action="@Action"
+    OnLogInSucceeded="LoginSuccessHandler"
+    OnLogOutSucceeded="LogoutSuccessHandler"/>
