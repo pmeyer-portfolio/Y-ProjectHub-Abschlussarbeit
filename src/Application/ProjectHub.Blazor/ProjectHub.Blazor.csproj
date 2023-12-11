@@ -7,9 +7,48 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Shared\LoginDisplay\**" />
+    <Compile Remove="Shared\MainLayout\**" />
+    <Compile Remove="Shared\NavMenu\**" />
+    <Compile Remove="Shared\RedirectToLogin\**" />
+    <Compile Remove="Shared\SurveyPrompt\**" />
+    <Content Remove="Shared\LoginDisplay\**" />
+    <Content Remove="Shared\MainLayout\**" />
+    <Content Remove="Shared\NavMenu\**" />
+    <Content Remove="Shared\RedirectToLogin\**" />
+    <Content Remove="Shared\SurveyPrompt\**" />
+    <EmbeddedResource Remove="Shared\LoginDisplay\**" />
+    <EmbeddedResource Remove="Shared\MainLayout\**" />
+    <EmbeddedResource Remove="Shared\NavMenu\**" />
+    <EmbeddedResource Remove="Shared\RedirectToLogin\**" />
+    <EmbeddedResource Remove="Shared\SurveyPrompt\**" />
+    <None Remove="Shared\LoginDisplay\**" />
+    <None Remove="Shared\MainLayout\**" />
+    <None Remove="Shared\NavMenu\**" />
+    <None Remove="Shared\RedirectToLogin\**" />
+    <None Remove="Shared\SurveyPrompt\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.13" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.13" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Authentication.WebAssembly.Msal" Version="7.0.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.13">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageReference Include="Radzen.Blazor" Version="4.21.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Components\TribeDropDownDataGrid.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Components\TribeDropDownDataGrid.razor" />
   </ItemGroup>
 
 </Project>

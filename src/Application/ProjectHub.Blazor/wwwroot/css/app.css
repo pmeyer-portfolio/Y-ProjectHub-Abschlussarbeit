@@ -99,3 +99,9 @@ a, .btn-link {
     .loading-progress-text:after {
         content: var(--blazor-load-percentage-text, "Loading");
     }
+
+:root {
+    --rz-checkbox-checked-disabled-border: 012px dotted #000000;
+    --rz-checkbox-checked-hover-border: 0px inset #000000;
+    --rz-checkbox-checked-border: 0px solid #000000;
+}

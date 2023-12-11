@@ -1,17 +1,70 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
-
-    <main>
-        <div class="top-row px-4 auth">
-            <LoginDisplay />
+<RadzenLayout>
+    <RadzenHeader>
+        <RadzenStack Orientation="Orientation.Horizontal"
+                     AlignItems="AlignItems.Center"
+                     Gap="20">
+            <RadzenSidebarToggle Click="@(() => this.sidebar1Expanded = !this.sidebar1Expanded)"/>
+            <RadzenStack Orientation="Orientation.Horizontal"
+                         AlignItems="AlignItems.Center"
+                         JustifyContent="JustifyContent.End">
+                <LoginDisplay>
+                </LoginDisplay>
+            </RadzenStack>
+        </RadzenStack>
+    </RadzenHeader>
+    <RadzenSidebar @bind-Expanded="@(this.sidebar1Expanded)">
+        <RadzenPanelMenu>
+            <RadzenPanelMenuItem Text="LogoutPage"
+                                 Icon="logout"
+                                 Click="this.ToLogOutPage"/>
+            <RadzenPanelMenuItem Text="Create Project"
+                                 Icon="add_task"
+                                 Click="this.ToCreateProjectsPage"/>
+        </RadzenPanelMenu>
+    </RadzenSidebar>
+    <RadzenBody>
+        <div class="rz-p-4">
+            @(this.Body)
         </div>
+    </RadzenBody>
+    <RadzenFooter>
+        Footer
+    </RadzenFooter>
+</RadzenLayout>
+<RadzenComponents/>
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
+<style>
+    .rz-header {
+        background-color: var(--rz-white);
+        background: linear-gradient(111deg, rgba(2,0,36,1) 0%, rgba(78,9,121,1) 31%, rgba(0,212,255,1) 100%);
+    }
+</style>
+
+<style>
+    .rz-growl-message-error .rz-growl-item {
+        color: #120c0c;
+        background: rgb(184,21,27);
+        background: linear-gradient(333deg, rgba(184,21,27,1) 40%, rgba(204,17,46,0.7876400560224089) 80%);
+    }
+
+    .rz-growl-image.rzi-times {
+        color: #ffffff;
+    }
+
+    .rz-growl-item-container {
+        background-color: transparent;
+    }
+
+
+    .rz-growl-message-success .rz-growl-item {
+        color: #120c0c;
+        background: rgb(21,175,184);
+        background: linear-gradient(333deg, rgba(21,175,184,1) 40%, rgba(17,204,29,0.7876400560224089) 80%);
+    }
+
+    .rz-growl-image.rzi-check {
+        color: #ffffff;
+    }
+</style>

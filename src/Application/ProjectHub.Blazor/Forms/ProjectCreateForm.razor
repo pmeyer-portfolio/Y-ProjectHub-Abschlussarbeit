@@ -1,0 +1,29 @@
+﻿@using ProjectHub.Blazor.Components.DataGrids
+
+<Div Class="rz-p-0 rz-p-md-12">
+    <RadzenRow Gap="1rem">
+        <RadzenColumn Size="12" SizeSM="6">
+            <RadzenStack>
+                <DataAnnotationsValidator/>
+                <RadzenFormField Text="Project Title" Variant="Variant.Outlined">
+                    <RadzenTextBox @bind-Value="@ProjectCreateDto.Title"/>
+                </RadzenFormField>
+                <DataAnnotationsValidator/>
+                <RadzenFormField Text="Project Description" Variant="Variant.Outlined">
+                    <RadzenTextArea @bind-Value="@ProjectCreateDto.Description"/>
+                </RadzenFormField>
+            </RadzenStack>
+        </RadzenColumn>
+        <RadzenColumn Size="12" SizeSM="6">
+            <RadzenStack>
+                <TribeDropDownDataGrid OnItemSelected="HandleTribeSelected"/>
+                <ProgrammingLanguageDropDownDataGrid OnItemSelected="HandleLanguageSelected"/>
+                <RadzenButton Text="Create"
+                              Icon="add"
+                              ButtonType="ButtonType.Submit"
+                              ButtonStyle="ButtonStyle.Primary"
+                              Size="ButtonSize.Medium"/>
+            </RadzenStack>
+        </RadzenColumn>
+    </RadzenRow>
+</Div>

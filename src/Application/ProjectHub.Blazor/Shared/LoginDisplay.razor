@@ -2,10 +2,10 @@
 
 <AuthorizeView>
     <Authorized>
-        Hello, @context.User.Identity?.Name!
-        <button class="nav-link btn" style="margin-left: 1em;" @onclick="BeginLogOut"> Log out</button>
+        Hello, @context.User.Identity!.Name
+        <RadzenButton Variant="Variant.Outlined" Shade="Shade.Light" @onclick="this.BeginLogOut" Click="@(_ => this.BeginLogOut())" Text="Log out" ButtonStyle="ButtonStyle.Info"/>
     </Authorized>
     <NotAuthorized>
-        <button class="nav-link btn" style="margin-left: 1em;" @onclick="BeginLogIn"> Log in</button>
+        <RadzenButton Variant="Variant.Outlined" Shade="Shade.Light" @onclick="this.BeginLogIn" Click="@(_ => this.BeginLogIn())" Text="Log in" ButtonStyle="ButtonStyle.Info"/>
     </NotAuthorized>
 </AuthorizeView>

@@ -4,6 +4,6 @@
 @attribute [AllowAnonymous]
 
 <RemoteAuthenticatorView
-    Action="@Action"
-    OnLogInSucceeded="LoginSuccessHandler"
-    OnLogOutSucceeded="LogoutSuccessHandler"/>
+    Action="@(this.Action)"
+    OnLogInSucceeded="this.LoginSuccessHandler"
+    OnLogOutSucceeded="this.LogoutSuccessHandler"/>
