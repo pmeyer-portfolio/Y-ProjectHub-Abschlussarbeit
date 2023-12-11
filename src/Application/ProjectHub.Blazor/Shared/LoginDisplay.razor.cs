@@ -1,17 +1,17 @@
-﻿using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
-using ProjectHub.Blazor.Constants;
+﻿namespace ProjectHub.Blazor.Shared;
 
-namespace ProjectHub.Blazor.Shared;
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+using ProjectHub.Blazor.Constants;
 
 public partial class LoginDisplay
 {
     private void BeginLogOut()
     {
-        Navigation.NavigateToLogout(ProjectHubRoute.AuthenticationLogout);
+        this.Navigation.NavigateToLogout(ProjectHubRoute.AuthenticationLogout);
     }
 
     private void BeginLogIn()
     {
-        Navigation.NavigateToLogin(ProjectHubRoute.AuthenticationLogin);
+        this.Navigation.NavigateToLogin(ProjectHubRoute.AuthenticationLogin);
     }
 }

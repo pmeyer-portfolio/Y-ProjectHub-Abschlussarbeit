@@ -1,0 +1,13 @@
+﻿<RadzenFormField Variant="Variant.Outlined">
+    <RadzenDropDownDataGrid TValue="IList<int>"
+                            Multiple="true"
+                            Placeholder="Select none or multiple programming languages."
+                            AllowRowSelectOnRowClick="true"
+                            FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                            AllowSorting="true"
+                            Data="ProgrammingLanguages"
+                            TextProperty="Name"
+                            AllowClear="true"
+                            ValueProperty="Id"
+                            Change="OnValueChanged"/>
+</RadzenFormField>
