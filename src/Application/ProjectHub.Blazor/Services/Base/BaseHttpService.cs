@@ -1,36 +1,41 @@
 ﻿namespace ProjectHub.Blazor.Services.Base;
 
+using ProjectHub.Blazor.Models;
+
 public class BaseHttpService
 {
     protected IProjectHubApiClient apiClient;
 
-    protected BaseHttpService(IProjectHubApiClient apiClient) { this.apiClient = apiClient; }
+    public BaseHttpService(IProjectHubApiClient apiClient)
+    {
+        this.apiClient = apiClient;
+    }
 
-    protected Response<T> GetApiExceptionResponse<T>(ApiException<ProblemDetails> apiException)
+    public Response<T> GetApiExceptionResponse<T>(ApiException<ProblemDetails> apiException)
     {
         return apiException switch
         {
             { StatusCode: 400 } => new Response<T>
             {
-                Title            = ResponseTitle.BadRequest,
+                Title = ResponseTitle.BadRequest,
                 ValidationErrors = GetProblemDetails(apiException.Result),
-                Success          = false
+                Success = false
             },
             { StatusCode: 403 } => new Response<T>
             {
-                Title            = ResponseTitle.ValidationError,
+                Title = ResponseTitle.ValidationError,
                 ValidationErrors = GetProblemDetails(apiException.Result),
-                Success          = false
+                Success = false
             },
             { StatusCode: 404 } => new Response<T>
             {
-                Title            = ResponseTitle.NotFound,
+                Title = ResponseTitle.NotFound,
                 ValidationErrors = GetProblemDetails(apiException.Result),
-                Success          = false
+                Success = false
             },
             { StatusCode: >= 200 and <= 299 } => new Response<T>
             {
-                Title   = "Operation Reported Success",
+                Title = "Operation Reported Success",
                 Success = true
             },
 
@@ -38,5 +43,8 @@ public class BaseHttpService
         };
     }
 
-    private static string? GetProblemDetails(ProblemDetails? problemDetails) { return problemDetails!.Detail; }
+    private static string? GetProblemDetails(ProblemDetails? problemDetails)
+    {
+        return problemDetails!.Detail;
+    }
 }

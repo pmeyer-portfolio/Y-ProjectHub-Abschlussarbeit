@@ -1,6 +1,6 @@
 ﻿namespace ProjectHub.Abstractions.Exceptions.ValidationEx;
 
-public class ValidationException : Exception
+public class ValidationException : ProjectHubException
 {
     protected ValidationException(string? message)
         : base(message)

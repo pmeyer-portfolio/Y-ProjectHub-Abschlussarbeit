@@ -35,7 +35,6 @@ public class TribeDtoMapperTests
 
         //Assert
         results.Should().BeEmpty();
-        results.Count.Should().Be(0);
     }
 
     [Test]
@@ -46,15 +45,20 @@ public class TribeDtoMapperTests
         {
             this.tribe,
         };
+        IList<TribeDto> expectedTribeDtos = new List<TribeDto>()
+        {
+            new ()
+            {
+                Id = this.tribe.Id,
+                Name = this.tribe.Name,
+            }
+        };
 
         //Act
         IList<TribeDto> result = this.mapper.Map(tribes);
 
         //Assert
-        result.Should().NotBeEmpty();
-        result.Should().HaveCount(1);
-        result.First().Id.Should().Be(this.tribe.Id);
-        result.First().Name.Should().Be(this.tribe.Name);
+        result.Should().BeEquivalentTo(expectedTribeDtos);
     }
 
     [Test]
@@ -65,7 +69,5 @@ public class TribeDtoMapperTests
 
         //Assert
         result.Should().BeEquivalentTo(this.tribe);
-        result.Id.Should().Be(this.tribe.Id);
-        result.Name.Should().Be(this.tribe.Name);
     }
 }

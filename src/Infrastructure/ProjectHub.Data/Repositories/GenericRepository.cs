@@ -1,9 +1,9 @@
 ﻿namespace ProjectHub.Data.Repositories;
 
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using ProjectHub.Data.Abstractions.IRepositories;
 using ProjectHub.Data.Contexts;
-using System.Diagnostics.CodeAnalysis;
 
 [ExcludeFromCodeCoverage]
 public abstract class GenericRepository<T> : IGenericRepository<T> where T : class

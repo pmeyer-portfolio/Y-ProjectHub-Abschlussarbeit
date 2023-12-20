@@ -37,6 +37,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectHub.Tests", "tests\D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectHub.Data.Tests", "tests\Infrastructure\ProjectHub.Data.Tests\ProjectHub.Data.Tests.csproj", "{02F7C8A4-BE7C-4BFB-B322-C2B8BC7B7F1E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectHub.Blazor.Tests", "tests\Application\ProjectHub.Blazor.Tests\ProjectHub.Blazor.Tests.csproj", "{E518DBF8-8BA4-4565-A41E-FA377A0BB381}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +81,10 @@ Global
 		{02F7C8A4-BE7C-4BFB-B322-C2B8BC7B7F1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02F7C8A4-BE7C-4BFB-B322-C2B8BC7B7F1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02F7C8A4-BE7C-4BFB-B322-C2B8BC7B7F1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E518DBF8-8BA4-4565-A41E-FA377A0BB381}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E518DBF8-8BA4-4565-A41E-FA377A0BB381}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E518DBF8-8BA4-4565-A41E-FA377A0BB381}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E518DBF8-8BA4-4565-A41E-FA377A0BB381}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -99,6 +105,7 @@ Global
 		{C527FBCA-BAC7-4A40-9181-120AF163B78D} = {F53B4DB2-B167-4BF6-AB05-19E94F8DBAE8}
 		{AA73D29D-9BC0-4F28-BCE4-47DD1F88F1DC} = {EA330F12-A3CB-4124-A12E-C0AD3DD69CA6}
 		{02F7C8A4-BE7C-4BFB-B322-C2B8BC7B7F1E} = {4A4AAAFC-B651-4670-8512-9A6005AC8F03}
+		{E518DBF8-8BA4-4565-A41E-FA377A0BB381} = {F53B4DB2-B167-4BF6-AB05-19E94F8DBAE8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DB1EB528-6136-403F-A5D1-0F36992E4D72}

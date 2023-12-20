@@ -5,7 +5,7 @@
         <RadzenStack Orientation="Orientation.Horizontal"
                      AlignItems="AlignItems.Center"
                      Gap="20">
-            <RadzenSidebarToggle Click="@(() => this.sidebar1Expanded = !this.sidebar1Expanded)"/>
+            <RadzenSidebarToggle Click="@(() => sidebar1Expanded = !sidebar1Expanded)"/>
             <RadzenStack Orientation="Orientation.Horizontal"
                          AlignItems="AlignItems.Center"
                          JustifyContent="JustifyContent.End">
@@ -14,19 +14,22 @@
             </RadzenStack>
         </RadzenStack>
     </RadzenHeader>
-    <RadzenSidebar @bind-Expanded="@(this.sidebar1Expanded)">
+    <RadzenSidebar @bind-Expanded="@(sidebar1Expanded)">
         <RadzenPanelMenu>
-            <RadzenPanelMenuItem Text="LogoutPage"
+            <RadzenPanelMenuItem Text="Logout"
                                  Icon="logout"
-                                 Click="this.ToLogOutPage"/>
-            <RadzenPanelMenuItem Text="Create Project"
+                                 Click="ToLogOutPage"/>
+            <RadzenPanelMenuItem Text="Projekt erstellen"
                                  Icon="add_task"
-                                 Click="this.ToCreateProjectsPage"/>
+                                 Click="ToCreateProjectsPage"/>
+            <RadzenPanelMenuItem Text="Projekte anzeigen "
+                                 Icon="format_list_bulleted"
+                                 Click="ToIndexProjectsPage"/>
         </RadzenPanelMenu>
     </RadzenSidebar>
     <RadzenBody>
         <div class="rz-p-4">
-            @(this.Body)
+            @Body
         </div>
     </RadzenBody>
     <RadzenFooter>
@@ -67,4 +70,21 @@
     .rz-growl-image.rzi-check {
         color: #ffffff;
     }
+
+    .rz-button.rz-primary.rz-shade-default {
+        background-color: rgba(82,9,121,1);
+        background-image: linear-gradient(111deg, rgba(2,0,36,1) 0%, rgba(78,9,121,1) 31%);
+    }
+
+        .rz-button.rz-primary.rz-shade-default:hover {
+            background: rgb(65,124,189);
+            background: linear-gradient(111deg, rgba(78,9,121,1) 31%, rgba(0,212,255,1) 100%);
+        }
+
+        .rz-button.rz-primary.rz-shade-default:focus,
+        .rz-button.rz-primary.rz-shade-default:active {
+            background: rgb(65,124,189);
+            background: linear-gradient(111deg, rgba(78,9,121,1) 31%, rgba(0,212,255,1) 100%);
+        }
+
 </style>

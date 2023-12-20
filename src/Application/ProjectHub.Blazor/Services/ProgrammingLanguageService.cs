@@ -1,5 +1,6 @@
 ﻿namespace ProjectHub.Blazor.Services;
 
+using ProjectHub.Blazor.Models;
 using ProjectHub.Blazor.Services.Base;
 using ProjectHub.Blazor.Services.Contracts;
 
@@ -11,23 +12,23 @@ public class ProgrammingLanguageService : BaseHttpService, IProgrammingLanguageS
         this.apiClient = apiClient;
     }
 
-    public async Task<Response<IList<ProgrammingLanguageViewDto>>> GetAll()
+    public async Task<Response<IList<ProgrammingLanguageDto>>> GetAll()
     {
-        Response<IList<ProgrammingLanguageViewDto>> response;
+        Response<IList<ProgrammingLanguageDto>> response;
 
         try
         {
-            IList<ProgrammingLanguageViewDto>?
-                data = await this.apiClient.ApiProgrammingLanguagesGetAllLanguagesAsync();
-            response = new Response<IList<ProgrammingLanguageViewDto>>
+            IList<ProgrammingLanguageDto>?
+                data = await this.apiClient.ApiProgrammingLanguagesGetAsync();
+            response = new Response<IList<ProgrammingLanguageDto>>
             {
-                Data    = data.ToList(),
+                Data = data.ToList(),
                 Success = true
             };
         }
         catch (ApiException<ProblemDetails> exception)
         {
-            response = this.GetApiExceptionResponse<IList<ProgrammingLanguageViewDto>>(exception);
+            response = this.GetApiExceptionResponse<IList<ProgrammingLanguageDto>>(exception);
         }
 
         return response;

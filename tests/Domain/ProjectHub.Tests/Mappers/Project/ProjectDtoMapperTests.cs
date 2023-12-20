@@ -1,8 +1,8 @@
-﻿#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-namespace ProjectHub.Tests.Mappers.Project;
+﻿namespace ProjectHub.Tests.Mappers.Project;
 
 using FluentAssertions;
 using ProjectHub.Abstractions.DTOs.Project;
+using ProjectHub.Abstractions.DTOs.User;
 using ProjectHub.Data.Abstractions.Entities;
 using ProjectHub.Mappers.Project;
 
@@ -15,11 +15,10 @@ public class ProjectDtoMapperTests
         this.dtoMapper = new ProjectDtoMapper();
     }
 
-    private ProjectDtoMapper dtoMapper;
+    private ProjectDtoMapper dtoMapper = null!;
 
     [Test]
-    public void
-        MapProjectToViewDto_GivenAllProperties_ShouldReturnViewDtoWithPropertiesCorrectly()
+    public void MapProjectToViewDto_GivenAllProperties_ShouldReturnViewDtoWithPropertiesCorrectly()
     {
         //Arrange
         Project project = new()
@@ -27,6 +26,12 @@ public class ProjectDtoMapperTests
             Title = "Test Title",
             Description = "Test Description",
             TribeId = 1,
+            User = new User
+            {
+                FirstName = "Test FirstName",
+                LastName = "Test LastName",
+                Email = "test@User.com"
+            }
         };
 
         Tribe tribe = new()
@@ -52,15 +57,33 @@ public class ProjectDtoMapperTests
         project.Tribe = tribe;
         project.projectProgrammingLanguages.Add(references);
 
+        ProjectDto expectedDto = new()
+        {
+            Title = project.Title,
+            Description = project.Description,
+            CreatedBy = new UserDto
+            {
+                FirstName = project.User.FirstName,
+                LastName = project.User.LastName,
+                Email = project.User.Email,
+            },
+            CreatedAt = project.Created,
+            TribeName = project.Tribe.Name,
+            Status = project.Status,
+            Id = project.Id,
+        };
+
+
+        foreach (ProjectProgrammingLanguages projectProjectProgrammingLanguage in project.projectProgrammingLanguages)
+        {
+            expectedDto.ProgrammingLanguages.Add(projectProjectProgrammingLanguage.ProgrammingLanguage.Name);
+        }
+
         //Act
-        ProjectViewDto result = this.dtoMapper.Map(project);
+        ProjectDto result = this.dtoMapper.Map(project);
 
         //Assert
-        result.Title.Should().Be(project.Title);
-        result.Description.Should().Be(project.Description);
-        result.TribeName.Should().Be(project.Tribe!.Name);
-        result.ProgrammingLanguages.First().Should().Be(language.Name);
-        result.Id.Should().Be(project.Id);
+        result.Should().BeEquivalentTo(expectedDto);
     }
 
     [Test]
@@ -73,6 +96,12 @@ public class ProjectDtoMapperTests
             Title = "Test Title",
             Description = "Test Description",
             TribeId = 1,
+            User = new User
+            {
+                FirstName = "Test FirstName",
+                LastName = "Test LastName",
+                Email = "test@User.com"
+            }
         };
 
         Tribe tribe = new()
@@ -103,15 +132,35 @@ public class ProjectDtoMapperTests
             project
         };
 
+        IList<ProjectDto> expectedDtos = new List<ProjectDto>
+        {
+            new()
+            {
+                Title = project.Title,
+                Description = project.Description,
+                CreatedBy = new UserDto
+                {
+                    FirstName = project.User.FirstName,
+                    LastName = project.User.LastName,
+                    Email = project.User.Email,
+                },
+                CreatedAt = project.Created,
+                TribeName = project.Tribe.Name,
+                Status = project.Status,
+                Id = project.Id,
+            }
+        };
+
+        foreach (ProjectProgrammingLanguages projectProjectProgrammingLanguage in project.projectProgrammingLanguages)
+        {
+            expectedDtos.First().ProgrammingLanguages.Add(projectProjectProgrammingLanguage.ProgrammingLanguage!.Name);
+        }
+
         //Act
-        IList<ProjectViewDto> results = this.dtoMapper.Map(projects);
+        IList<ProjectDto> results = this.dtoMapper.Map(projects);
 
         //Assert
-        results.First().Title.Should().Be(project.Title);
-        results.First().Description.Should().Be(project.Description);
-        results.First().TribeName.Should().Be(project.Tribe!.Name);
-        results.First().ProgrammingLanguages.First().Should().Be(language.Name);
-        results.First().Id.Should().Be(project.Id);
+        results.Should().BeEquivalentTo(expectedDtos);
     }
 
     [Test]
@@ -122,16 +171,30 @@ public class ProjectDtoMapperTests
         Project project = new()
         {
             Title = "Test Title",
-            Description = "Test Description"
+            Description = "Test Description",
+            User = new User
+            {
+                FirstName = "Test FirstName",
+                LastName = "Test LastName",
+                Email = "test@User.com"
+            }
+        };
+        ProjectDto expectedProjectDto = new()
+        {
+            Title = project.Title,
+            Description = project.Description,
+            CreatedBy = new UserDto
+            {
+                FirstName = project.User.FirstName,
+                LastName = project.User.LastName,
+                Email = project.User.Email
+            }
         };
 
         //Act
-        ProjectViewDto result = this.dtoMapper.Map(project);
+        ProjectDto result = this.dtoMapper.Map(project);
 
         //Assert
-        result.Title.Should().Be(project.Title);
-        result.Description.Should().Be(project.Description);
-        result.TribeName.Should().BeNull();
-        result.ProgrammingLanguages.Should().BeEmpty();
+        result.Should().BeEquivalentTo(expectedProjectDto);
     }
 }

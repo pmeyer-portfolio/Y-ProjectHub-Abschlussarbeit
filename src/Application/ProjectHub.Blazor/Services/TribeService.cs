@@ -1,5 +1,6 @@
 ﻿namespace ProjectHub.Blazor.Services;
 
+using ProjectHub.Blazor.Models;
 using ProjectHub.Blazor.Services.Base;
 using ProjectHub.Blazor.Services.Contracts;
 
@@ -11,22 +12,22 @@ public class TribeService : BaseHttpService, ITribeService
         this.apiClient = apiClient;
     }
 
-    public async Task<Response<IList<TribeViewDto>>> GetAll()
+    public async Task<Response<IList<TribeDto>>> GetAll()
     {
-        Response<IList<TribeViewDto>> response;
+        Response<IList<TribeDto>> response;
 
         try
         {
-            IList<TribeViewDto>? data = await this.apiClient.ApiTribeGetAllTribesAsync();
-            response = new Response<IList<TribeViewDto>>
+            IList<TribeDto>? tribeDtos = await this.apiClient.ApiTribesGetAsync();
+            response = new Response<IList<TribeDto>>
             {
-                Data = data.ToList(),
+                Data = tribeDtos.ToList(),
                 Success = true
             };
         }
         catch (ApiException<ProblemDetails> exception)
         {
-            response = this.GetApiExceptionResponse<IList<TribeViewDto>>(exception);
+            response = this.GetApiExceptionResponse<IList<TribeDto>>(exception);
         }
 
         return response;

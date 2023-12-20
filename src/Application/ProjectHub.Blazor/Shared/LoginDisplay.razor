@@ -2,7 +2,7 @@
 
 <AuthorizeView>
     <Authorized>
-        Hello, @context.User.Identity!.Name
+        Hallo, @context.User.Identity!.Name.
         <RadzenButton Variant="Variant.Outlined" Shade="Shade.Light" @onclick="this.BeginLogOut" Click="@(_ => this.BeginLogOut())" Text="Log out" ButtonStyle="ButtonStyle.Info"/>
     </Authorized>
     <NotAuthorized>

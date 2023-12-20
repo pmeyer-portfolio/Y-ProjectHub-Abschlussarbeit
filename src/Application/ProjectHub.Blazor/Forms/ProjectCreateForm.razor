@@ -5,11 +5,11 @@
         <RadzenColumn Size="12" SizeSM="6">
             <RadzenStack>
                 <DataAnnotationsValidator/>
-                <RadzenFormField Text="Project Title" Variant="Variant.Outlined">
+                <RadzenFormField Text="Titel" Variant="Variant.Outlined">
                     <RadzenTextBox @bind-Value="@ProjectCreateDto.Title"/>
                 </RadzenFormField>
                 <DataAnnotationsValidator/>
-                <RadzenFormField Text="Project Description" Variant="Variant.Outlined">
+                <RadzenFormField Text="Beschreibung" Variant="Variant.Outlined">
                     <RadzenTextArea @bind-Value="@ProjectCreateDto.Description"/>
                 </RadzenFormField>
             </RadzenStack>
@@ -18,7 +18,7 @@
             <RadzenStack>
                 <TribeDropDownDataGrid OnItemSelected="HandleTribeSelected"/>
                 <ProgrammingLanguageDropDownDataGrid OnItemSelected="HandleLanguageSelected"/>
-                <RadzenButton Text="Create"
+                <RadzenButton Text="Erstellen"
                               Icon="add"
                               ButtonType="ButtonType.Submit"
                               ButtonStyle="ButtonStyle.Primary"

@@ -12,6 +12,7 @@ using ProjectHub.Data.Abstractions.IRepositories;
 public class ProjectService : IProjectService
 {
     private readonly IProjectCreateDtoValidator projectCreateDtoValidator;
+    private readonly IProjectDtoMapper projectDtoMapper;
     private readonly IProjectMapper projectMapper;
     private readonly IGenericRepository<Project> projectRepository;
     private readonly IUserMapper userMapper;
@@ -19,13 +20,14 @@ public class ProjectService : IProjectService
 
     public ProjectService(IProjectMapper projectMapper, IGenericRepository<Project> projectRepository,
         IProjectCreateDtoValidator projectCreateDtoValidator, IGenericRepository<User> userRepository,
-        IUserMapper userMapper)
+        IUserMapper userMapper, IProjectDtoMapper projectDtoMapper)
     {
         this.projectMapper = projectMapper;
         this.projectRepository = projectRepository;
         this.projectCreateDtoValidator = projectCreateDtoValidator;
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.projectDtoMapper = projectDtoMapper;
     }
 
     public async Task InsertAsync(ProjectCreateDto dto)
@@ -35,6 +37,12 @@ public class ProjectService : IProjectService
         Project project = this.projectMapper.Map(dto);
         await this.EnsureUserExists(dto.User);
         await this.projectRepository.AddAsync(project);
+    }
+
+    public async Task<IList<ProjectDto>?> GetAsync()
+    {
+        IList<Project> projects = await this.projectRepository.GetAllAsync();
+        return this.projectDtoMapper.Map(projects);
     }
 
     private async Task EnsureUserExists(UserCreateDto userDto)

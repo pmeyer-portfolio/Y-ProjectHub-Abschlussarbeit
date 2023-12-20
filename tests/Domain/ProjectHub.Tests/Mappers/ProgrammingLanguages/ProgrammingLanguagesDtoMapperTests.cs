@@ -1,5 +1,4 @@
-﻿#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-namespace ProjectHub.Tests.Mappers.ProgrammingLanguages
+﻿namespace ProjectHub.Tests.Mappers.ProgrammingLanguages
 {
     using FluentAssertions;
     using ProjectHub.Abstractions.DTOs.ProgrammingLanguage;
@@ -15,17 +14,22 @@ namespace ProjectHub.Tests.Mappers.ProgrammingLanguages
             this.mapper = new ProgrammingLanguagesDtoMapper();
         }
 
-        private ProgrammingLanguagesDtoMapper mapper;
+        private ProgrammingLanguagesDtoMapper mapper = null!;
 
 
         [Test]
         public void Map_LanguageList_ReturnsListOfViewProgrammingLanguageDto()
         {
             // Arrange
-            List<ProgrammingLanguage> languages = new()
+            IList<ProgrammingLanguage> languages = new List<ProgrammingLanguage>
             {
-                new ProgrammingLanguage { Id = 1, Name = "C#" },
-                new ProgrammingLanguage { Id = 2, Name = "Java" }
+                new() { Id = 1, Name = "C#" },
+                new() { Id = 2, Name = "Java" }
+            };
+            IList<ProgrammingLanguageDto> expectedDtos = new List<ProgrammingLanguageDto>
+            {
+                new() { Id = 1, Name = "C#" },
+                new() { Id = 2, Name = "Java" }
             };
 
             // Act
@@ -34,10 +38,7 @@ namespace ProjectHub.Tests.Mappers.ProgrammingLanguages
             // Assert
             result.Should().BeOfType<List<ProgrammingLanguageDto>>();
             result.Count.Should().Be(2);
-            result.First().Id.Should().Be(languages[0].Id);
-            result.First().Name.Should().Be(languages[0].Name);
-            result.Last().Id.Should().Be(languages[1].Id);
-            result.Last().Name.Should().Be(languages[1].Name);
+            result.Should().BeEquivalentTo(expectedDtos);
         }
 
         [Test]
@@ -51,7 +52,6 @@ namespace ProjectHub.Tests.Mappers.ProgrammingLanguages
 
             //Assert
             results.Should().BeEmpty();
-            results.Count.Should().Be(0);
         }
 
         [Test]
@@ -65,8 +65,6 @@ namespace ProjectHub.Tests.Mappers.ProgrammingLanguages
 
             // Assert
             result.Should().BeEquivalentTo(language, options => options.ExcludingMissingMembers());
-            result.Id.Should().Be(language.Id);
-            result.Name.Should().Be(language.Name);
         }
     }
 }
