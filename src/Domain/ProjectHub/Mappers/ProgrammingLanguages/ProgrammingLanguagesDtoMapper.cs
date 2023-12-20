@@ -10,7 +10,7 @@ public class ProgrammingLanguagesDtoMapper : IProgrammingLanguagesDtoMapper
     {
         ProgrammingLanguageDto dto = new()
         {
-            Id   = programmingLanguage.Id,
+            Id = programmingLanguage.Id,
             Name = programmingLanguage.Name
         };
         return dto;

@@ -67,6 +67,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+using (IServiceScope scope = app.Services.CreateScope())
+{
+    ProjectHubSqLiteDbContext dbContext = scope.ServiceProvider.GetRequiredService<ProjectHubSqLiteDbContext>();
+    dbContext.Database.Migrate();
+}
+
 app.UseCors(policy => policy.WithOrigins("https://localhost:7059", "http://localhost:5277").AllowAnyMethod()
     .WithHeaders(HeaderNames.ContentType));
 

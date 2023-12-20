@@ -1,0 +1,10 @@
+﻿@using ProjectHub.Blazor.Forms
+@using ProjectHub.Blazor.Constants
+@attribute [Route(ProjectHubRoute.Create)]
+
+<PageTitle>Projekt erstellen</PageTitle>
+<h3>Projekt erstellen</h3>
+
+<EditForm Model="@(this.projectCreateDto)" OnSubmit="this.Submit">
+    <ProjectCreateForm ProjectCreateDto="this.projectCreateDto"></ProjectCreateForm>
+</EditForm>

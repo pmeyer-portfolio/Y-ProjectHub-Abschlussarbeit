@@ -1,8 +1,8 @@
 ﻿namespace ProjectHub.Data.Extensions;
 
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using ProjectHub.Data.Abstractions.Entities;
-using System.Diagnostics.CodeAnalysis;
 
 [ExcludeFromCodeCoverage]
 public static class ModelBuilderExtensions

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using ProjectHub.Blazor;
+using ProjectHub.Blazor.Mappers;
 using ProjectHub.Blazor.Services;
 using ProjectHub.Blazor.Services.Base;
 using ProjectHub.Blazor.Services.Contracts;
@@ -12,7 +13,6 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddHttpClient("ProjectHubClient");
-builder.Services.AddScoped(_ => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddScoped<IProjectHubApiClient, ProjectHubApiClient>(x =>
     {
         IHttpClientFactory factory = x.GetRequiredService<IHttpClientFactory>();
@@ -26,6 +26,7 @@ builder.Services.AddScoped<IProjectHubApiClient, ProjectHubApiClient>(x =>
 builder.Services.AddScoped<ITribeService, TribeService>();
 builder.Services.AddScoped<IProgrammingLanguageService, ProgrammingLanguageService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
+builder.Services.AddScoped<IProjectViewModelMapper, ProjectViewModelMapper>();
 builder.Services.AddRadzenComponents();
 builder.Services.AddMsalAuthentication(options =>
 {

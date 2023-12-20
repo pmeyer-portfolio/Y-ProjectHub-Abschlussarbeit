@@ -8,13 +8,13 @@ using ProjectHub.Data.Abstractions.IRepositories;
 
 public class TribeService : ITribeService
 {
-    private readonly ITribeDtoMapper           dtoMapper;
+    private readonly ITribeDtoMapper dtoMapper;
     private readonly IGenericRepository<Tribe> tribeRepository;
 
     public TribeService(IGenericRepository<Tribe> tribeRepository, ITribeDtoMapper dtoMapper)
     {
         this.tribeRepository = tribeRepository;
-        this.dtoMapper       = dtoMapper;
+        this.dtoMapper = dtoMapper;
     }
 
     public async Task<IList<TribeDto>> GetAllTribesAsync()

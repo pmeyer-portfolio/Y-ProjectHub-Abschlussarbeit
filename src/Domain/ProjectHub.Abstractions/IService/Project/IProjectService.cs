@@ -6,4 +6,5 @@ public interface IProjectService
 
 {
     Task InsertAsync(ProjectCreateDto dto);
+    Task<IList<ProjectDto>?> GetAsync();
 }

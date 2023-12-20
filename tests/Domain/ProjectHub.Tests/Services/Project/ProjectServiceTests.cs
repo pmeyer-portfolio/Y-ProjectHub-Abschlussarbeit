@@ -1,6 +1,6 @@
-﻿#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-namespace ProjectHub.Tests.Services.Project;
+﻿namespace ProjectHub.Tests.Services.Project;
 
+using FluentAssertions;
 using NSubstitute;
 using ProjectHub.Abstractions.DTOs.Project;
 using ProjectHub.Abstractions.DTOs.User;
@@ -17,70 +17,133 @@ public class ProjectServiceTests
     [SetUp]
     public void Setup()
     {
-        this.projectMapper = Substitute.For<IProjectMapper>();
+        this.validator = Substitute.For<IProjectCreateDtoValidator>();
         this.userMapper = Substitute.For<IUserMapper>();
+        this.projectMapper = Substitute.For<IProjectMapper>();
+        this.projectDtoMapper = Substitute.For<IProjectDtoMapper>();
         this.projectRepository = Substitute.For<IGenericRepository<Project>>();
         this.validator = Substitute.For<IProjectCreateDtoValidator>();
         this.userRepository = Substitute.For<IGenericRepository<User>>();
         this.service =
             new ProjectService(this.projectMapper, this.projectRepository, this.validator, this.userRepository,
-                this.userMapper);
+                this.userMapper, this.projectDtoMapper);
+    }
 
-        this.project = new Project
+    private IProjectCreateDtoValidator validator = null!;
+    private IGenericRepository<User> userRepository = null!;
+    private IUserMapper userMapper = null!;
+    private IProjectMapper projectMapper = null!;
+    private IGenericRepository<Project> projectRepository = null!;
+    private ProjectService service = null!;
+    private IProjectDtoMapper projectDtoMapper = null!;
+
+
+    private static Project GetTestProject()
+    {
+        return new Project
         {
             Title = "Test Title",
             Description = "Test Description"
         };
+    }
 
-        this.createDto = new ProjectCreateDto
+    private static ProjectDto GetTestProjectDto()
+    {
+        return new ProjectDto
         {
-            Title = this.project.Title,
-            Description = this.project.Description,
-            User = new UserCreateDto
+            Title = "Test Title",
+            Description = "Test Description",
+            CreatedBy = new UserDto
             {
-                Email = "test@example.com",
-                FirstName = "Test",
-                LastName = "Users"
+                FirstName = "Test FirstName",
+                LastName = "Test LastName",
+                Email = "test@User.com"
             }
         };
     }
 
-    private ProjectCreateDto createDto;
-    private IProjectMapper projectMapper;
-    private Project project;
-    private IGenericRepository<Project> projectRepository;
-    private ProjectService service;
-    private IProjectCreateDtoValidator validator;
-    private IGenericRepository<User> userRepository;
-    private IUserMapper userMapper;
+    private static ProjectCreateDto GetProjectCreateDto()
+    {
+        return new ProjectCreateDto
+        {
+            Title = "Test Title",
+            Description = "Test Description",
+            User = new UserCreateDto
+            {
+                Email = "test@example.com",
+                FirstName = "Test",
+                LastName = "User"
+            }
+        };
+    }
+
+    [Test]
+    public async Task GetAllProjectsAsync_WhenNoProjectsExist_ReturnsEmptyList()
+    {
+        List<Project> projects = new();
+        List<ProjectDto> projectViewDtos = new();
+
+        this.projectRepository.GetAllAsync().Returns(projects);
+        this.projectDtoMapper.Map(projects).Returns(projectViewDtos);
+
+        IList<ProjectDto>? result = await this.service.GetAsync();
+
+        result.Should().BeEmpty();
+        result.Should().NotBeNull();
+    }
+
+    [Test]
+    public async Task GetAllProjectsAsync_WhenProjectsExist_ReturnsMappedProjects()
+    {
+        List<Project> projects = new()
+        {
+            GetTestProject()
+        };
+        List<ProjectDto> projectDtos = new()
+        {
+            GetTestProjectDto()
+        };
+        this.projectRepository.GetAllAsync().Returns(projects);
+        this.projectDtoMapper.Map(projects).Returns(projectDtos);
+
+        IList<ProjectDto>? result = await this.service.GetAsync();
+
+        result.Should().BeEquivalentTo(projectDtos);
+    }
 
     [Test]
     public async Task InsertAsync_ShouldAddProject()
     {
-        this.projectMapper.Map(Arg.Any<ProjectCreateDto>()).Returns(this.project);
+        Project project = GetTestProject();
+        ProjectCreateDto projectCreateDto = GetProjectCreateDto();
+        this.projectMapper.Map(Arg.Any<ProjectCreateDto>()).Returns(project);
 
-        await this.service.InsertAsync(this.createDto);
+        await this.service.InsertAsync(projectCreateDto);
 
-        await this.projectRepository.Received(1).AddAsync(Arg.Is<Project>(p => p.Title == this.createDto.Title));
+        await this.projectRepository.Received(1).AddAsync(Arg.Is<Project>(p => p.Title == projectCreateDto.Title));
     }
 
     [Test]
     public async Task InsertAsync_ShouldMapDtoToProject()
     {
-        this.projectMapper.Map(this.createDto).Returns(this.project);
+        Project project = GetTestProject();
+        ProjectCreateDto projectCreateDto = GetProjectCreateDto();
+        this.projectMapper.Map(projectCreateDto).Returns(project);
 
-        await this.service.InsertAsync(this.createDto);
+        await this.service.InsertAsync(projectCreateDto);
 
-        this.projectMapper.Received(1).Map(Arg.Is<ProjectCreateDto>(d => d == this.createDto));
+        this.projectMapper.Received(1).Map(Arg.Is<ProjectCreateDto>(d => d == projectCreateDto));
     }
 
     [Test]
     public async Task InsertAsync_ShouldNotAddUserIfExists()
     {
+        Project project = GetTestProject();
+        ProjectCreateDto projectCreateDto = GetProjectCreateDto();
         this.userRepository.Exists(Arg.Any<User>()).Returns(true);
-        this.projectMapper.Map(this.createDto).Returns(this.project);
+        this.projectMapper.Map(projectCreateDto).Returns(project);
 
-        await this.service.InsertAsync(this.createDto);
+        await this.service.InsertAsync(projectCreateDto);
 
         await this.userRepository.DidNotReceive().AddAsync(Arg.Any<User>());
     }
@@ -88,10 +151,12 @@ public class ProjectServiceTests
     [Test]
     public async Task InsertAsync_ShouldValidateDto()
     {
-        this.projectMapper.Map(this.createDto).Returns(this.project);
+        Project project = GetTestProject();
+        ProjectCreateDto projectCreateDto = GetProjectCreateDto();
+        this.projectMapper.Map(projectCreateDto).Returns(project);
 
-        await this.service.InsertAsync(this.createDto);
+        await this.service.InsertAsync(projectCreateDto);
 
-        this.validator.Received(1).Validate(Arg.Is<ProjectCreateDto>(d => d == this.createDto));
+        this.validator.Received(1).Validate(Arg.Is<ProjectCreateDto>(d => d == projectCreateDto));
     }
 }

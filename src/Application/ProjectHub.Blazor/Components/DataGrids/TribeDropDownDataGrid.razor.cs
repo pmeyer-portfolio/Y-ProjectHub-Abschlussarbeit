@@ -1,12 +1,13 @@
 ﻿namespace ProjectHub.Blazor.Components.DataGrids;
 
 using Microsoft.AspNetCore.Components;
+using ProjectHub.Blazor.Models;
 using ProjectHub.Blazor.Services.Base;
 using ProjectHub.Blazor.Services.Contracts;
 
 public partial class TribeDropDownDataGrid
 {
-    private Response<IList<TribeViewDto>> response = new() { Success = true };
+    private Response<IList<TribeDto>> response = new() { Success = true };
 
     [Inject]
     public required ITribeService Service { get; set; }
@@ -14,9 +15,12 @@ public partial class TribeDropDownDataGrid
     [Parameter]
     public EventCallback<int> OnItemSelected { get; set; }
 
-    public IList<TribeViewDto>? Tribes { get; set; }
+    public IList<TribeDto>? Tribes { get; set; }
 
-    protected override async Task OnInitializedAsync() { await this.Initialize(); }
+    protected override async Task OnInitializedAsync()
+    {
+        await this.Initialize();
+    }
 
     private void OnValueChanged(object value)
     {
@@ -33,10 +37,10 @@ public partial class TribeDropDownDataGrid
             if (this.response.Success)
             {
                 this.Tribes = this.response.Data;
-                this.Tribes?.Insert(0, new TribeViewDto
+                this.Tribes?.Insert(0, new TribeDto
                 {
-                    Id   = -1,
-                    Name = "No assignment"
+                    Id = -1,
+                    Name = "Keine Zuordnung"
                 });
             }
         }

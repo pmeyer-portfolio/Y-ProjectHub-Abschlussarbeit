@@ -1,16 +1,14 @@
 ﻿namespace ProjectHub.Mappers.Project;
 
-using System.Globalization;
 using ProjectHub.Abstractions.DTOs.Project;
+using ProjectHub.Abstractions.DTOs.User;
 using ProjectHub.Abstractions.IMappers.Project;
 using ProjectHub.Data.Abstractions.Entities;
 
 public class ProjectDtoMapper : IProjectDtoMapper
 
 {
-    private const string DateFormat = "dd-MM-yyyy HH:mm:ss";
-
-    public ProjectViewDto Map(Project project)
+    public ProjectDto Map(Project project)
     {
         List<string> languages = new();
         foreach (ProjectProgrammingLanguages ppl in project.projectProgrammingLanguages)
@@ -23,21 +21,27 @@ public class ProjectDtoMapper : IProjectDtoMapper
 
         string? tribeName = project.Tribe?.Name;
 
-        return new ProjectViewDto
+        return new ProjectDto
         {
             Id = project.Id,
             Description = project.Description,
             Title = project.Title,
             ProgrammingLanguages = languages,
             TribeName = tribeName,
-            Created = project.Created.ToString(DateFormat, CultureInfo.InvariantCulture),
+            CreatedAt = project.Created,
             Status = project.Status,
+            CreatedBy = new UserDto
+            {
+                FirstName = project.User!.FirstName,
+                LastName = project.User.LastName,
+                Email = project.User.Email,
+            }
         };
     }
 
-    public IList<ProjectViewDto> Map(IList<Project>? projects)
+    public IList<ProjectDto> Map(IList<Project>? projects)
     {
-        IList<ProjectViewDto> dtos = new List<ProjectViewDto>();
+        IList<ProjectDto> dtos = new List<ProjectDto>();
         if (projects == null)
         {
             return dtos;
@@ -45,7 +49,7 @@ public class ProjectDtoMapper : IProjectDtoMapper
 
         foreach (Project? project in projects)
         {
-            ProjectViewDto dto = this.Map(project);
+            ProjectDto dto = this.Map(project);
             dtos.Add(dto);
         }
 

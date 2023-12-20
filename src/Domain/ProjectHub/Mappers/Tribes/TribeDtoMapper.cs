@@ -18,6 +18,6 @@ public class TribeDtoMapper : ITribeDtoMapper
 
     public IList<TribeDto> Map(IList<Tribe> tribes)
     {
-        return tribes.Select(tribe => this.Map(tribe)).ToList();
+        return tribes.Select(this.Map).ToList();
     }
 }

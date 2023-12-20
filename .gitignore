@@ -10,6 +10,14 @@
 *.userosscache
 *.sln.docstates
 
+# Service Dependencies for Visual Studio
+serviceDependencies.json
+serviceDependencies.local.json
+editorconfig
+dockerignore
+*.config
+
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
@@ -267,6 +275,9 @@ ServiceFabricBackup/
 *.mdf
 *.ldf
 *.ndf
+sqlite.db
+*.db-shm
+*.db-wal
 
 # Business Intelligence projects
 *.rdl.data
@@ -398,3 +409,6 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+* . s q l i t e 3 
+ 
+ 

@@ -23,7 +23,6 @@ public class Project
     public int? TribeId { get; set; }
     public DateTime Created { get; set; }
 
-    //todo: StatusHandler/Service || Status-procedure in Database
     public string Status { get; set; } = ProjectStatus.New;
 
     [ForeignKey("UserUuid")]

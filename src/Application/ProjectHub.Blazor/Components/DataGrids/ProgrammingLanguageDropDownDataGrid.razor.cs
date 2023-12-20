@@ -1,14 +1,15 @@
 ﻿namespace ProjectHub.Blazor.Components.DataGrids;
 
 using Microsoft.AspNetCore.Components;
+using ProjectHub.Blazor.Models;
 using ProjectHub.Blazor.Services.Base;
 using ProjectHub.Blazor.Services.Contracts;
 
 public partial class ProgrammingLanguageDropDownDataGrid
 {
-    private Response<IList<ProgrammingLanguageViewDto>> response = new() { Success = true };
+    private Response<IList<ProgrammingLanguageDto>> response = new() { Success = true };
 
-    public IList<ProgrammingLanguageViewDto>? ProgrammingLanguages { get; set; }
+    public IList<ProgrammingLanguageDto>? ProgrammingLanguages { get; set; }
 
     [Inject]
     public required IProgrammingLanguageService Service { get; set; }
@@ -16,7 +17,10 @@ public partial class ProgrammingLanguageDropDownDataGrid
     [Parameter]
     public EventCallback<IList<int>> OnItemSelected { get; set; }
 
-    protected override async Task OnInitializedAsync() { await this.Initialize(); }
+    protected override async Task OnInitializedAsync()
+    {
+        await this.Initialize();
+    }
 
     private void OnValueChanged(object value)
     {
@@ -33,10 +37,10 @@ public partial class ProgrammingLanguageDropDownDataGrid
             if (this.response.Success)
             {
                 this.ProgrammingLanguages = this.response.Data;
-                this.ProgrammingLanguages?.Insert(0, new ProgrammingLanguageViewDto
+                this.ProgrammingLanguages?.Insert(0, new ProgrammingLanguageDto
                 {
-                    Id   = -1,
-                    Name = "No specification"
+                    Id = -1,
+                    Name = "Keine Spezifikation"
                 });
             }
         }

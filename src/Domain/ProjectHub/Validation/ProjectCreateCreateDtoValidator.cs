@@ -16,7 +16,7 @@ public class ProjectCreateCreateDtoValidator : IProjectCreateDtoValidator
         if (string.IsNullOrWhiteSpace(dto.Description))
         {
             throw new ProjectDescriptionIsNullOrWhiteSpaceException(ProjectCreateValidationExceptionMessages
-                                                                        .DescriptionRequired);
+                .DescriptionRequired);
         }
     }
 }

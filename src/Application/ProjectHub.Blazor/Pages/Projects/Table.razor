@@ -1,0 +1,34 @@
+﻿<table class="table table-responsive">
+    <thead>
+    <tr>
+        <th>Titel</th>
+        <th>Status</th>
+        <th>Erstellt</th>
+        <th>Ersteller:in</th>
+        <th>Tribe</th>
+        <th>Programmiersprache/n</th>
+        <th>Details</th>
+    </tr>
+    </thead>
+    <tbody>
+    <Virtualize Items="this.Projects" Context="project">
+        <tr>
+            <td>@project.Title</td>
+            <td>@project.Status</td>
+            <td>@project.CreatedAt</td>
+            <td>@project.CreatedBy</td>
+            <td>@(this.GetTribeNameOrPlaceholder(project))</td>
+            <td>@(this.GetProgrammingLanguagesOrPlaceHolder(project))</td>
+            <td>
+                <RadzenButton
+                    IconColor="white"
+                    Icon="info_outline"
+                    Style="width: 120px"
+                    Click="@(() => this.OpenDetailsView(project.Id))"
+                    ButtonType="ButtonType.Button">
+                </RadzenButton>
+            </td>
+        </tr>
+    </Virtualize>
+    </tbody>
+</table>

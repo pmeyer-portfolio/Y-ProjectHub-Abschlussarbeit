@@ -9,10 +9,10 @@ using ProjectHub.Data.Abstractions.IRepositories;
 public class ProgrammingLanguageService : IProgrammingLanguageService
 {
     private readonly IGenericRepository<ProgrammingLanguage> programmingLanguageRepository;
-    private readonly IProgrammingLanguagesDtoMapper          programmingLanguagesDtoMapper;
+    private readonly IProgrammingLanguagesDtoMapper programmingLanguagesDtoMapper;
 
     public ProgrammingLanguageService(IGenericRepository<ProgrammingLanguage> genericRepository,
-                                      IProgrammingLanguagesDtoMapper          programmingLanguagesDtoMapper)
+        IProgrammingLanguagesDtoMapper programmingLanguagesDtoMapper)
     {
         this.programmingLanguageRepository = genericRepository;
         this.programmingLanguagesDtoMapper = programmingLanguagesDtoMapper;

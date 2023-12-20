@@ -6,6 +6,6 @@ using ProjectHub.Data.Abstractions.Entities;
 public interface IProjectDtoMapper
 {
   
-    ProjectViewDto Map(Project project);
-    IList<ProjectViewDto> Map(IList<Project>? projects);
+    ProjectDto Map(Project project);
+    IList<ProjectDto> Map(IList<Project>? projects);
 }
