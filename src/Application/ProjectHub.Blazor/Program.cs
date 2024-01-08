@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using ProjectHub.Blazor;
+using ProjectHub.Blazor.Initializer;
 using ProjectHub.Blazor.Mappers;
 using ProjectHub.Blazor.Services;
 using ProjectHub.Blazor.Services.Base;
@@ -26,7 +27,9 @@ builder.Services.AddScoped<IProjectHubApiClient, ProjectHubApiClient>(x =>
 builder.Services.AddScoped<ITribeService, TribeService>();
 builder.Services.AddScoped<IProgrammingLanguageService, ProgrammingLanguageService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
+builder.Services.AddScoped<IProjectFilterService, ProjectFilterService>();
 builder.Services.AddScoped<IProjectViewModelMapper, ProjectViewModelMapper>();
+builder.Services.AddScoped<IDropDownDataGridInitializer, DropDownDataGridInitializer>();
 builder.Services.AddRadzenComponents();
 builder.Services.AddMsalAuthentication(options =>
 {

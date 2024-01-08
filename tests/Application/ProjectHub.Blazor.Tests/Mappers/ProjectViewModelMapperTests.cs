@@ -1,6 +1,7 @@
 ﻿namespace ProjectHub.Blazor.Tests.Mappers;
 
 using FluentAssertions;
+using ProjectHub.Blazor.Constants;
 using ProjectHub.Blazor.Mappers;
 using ProjectHub.Blazor.Models;
 using ProjectHub.Blazor.Services.Base;
@@ -28,7 +29,7 @@ public class ProjectViewModelMapperTests
             Id = id,
             Title = "Project title",
             Status = "NEW",
-            CreatedBy = new UserDto
+            UserDto = new UserDto
             {
                 FirstName = "Test FirstName",
                 LastName = "Test LastName",
@@ -36,11 +37,25 @@ public class ProjectViewModelMapperTests
             },
             CreatedAt = DateTimeOffset.Now.Date,
             Description = "Test Description",
-            TribeName = "Test Tribe",
-            ProgrammingLanguages = new List<string>
+            TribeDto = new TribeDto
             {
-                "C#", "Brainfuck"
-            }
+                Id = 1,
+                Name = "Test Tribe",
+            },
+
+            ProgrammingLanguageDtos = new List<ProgrammingLanguageDto>
+            {
+                new()
+                {
+                    Id = 1,
+                    Name = "C#"
+                },
+                new()
+                {
+                    Id = 2,
+                    Name = "Brainfuck"
+                }
+            },
         };
         return projectDto;
     }
@@ -105,7 +120,6 @@ public class ProjectViewModelMapperTests
     {
         // Arrange
         ProjectDto projectDto = GetTestProjectDto();
-
         ProjectViewModel expectedViewModel = GetTestProjectViewModel(projectDto.Id);
 
         // Act
@@ -113,5 +127,80 @@ public class ProjectViewModelMapperTests
 
         // Assert
         result.Should().BeEquivalentTo(expectedViewModel);
+    }
+
+    [Test]
+    public void Map_WhenProgrammingLanguagesIsEmpty_AddsNotSpecifiedToProgrammingLanguages()
+    {
+        // Arrange
+        ProjectViewModelMapper mapper = new();
+        ProjectDto projectDto = new()
+        {
+            Id = 1,
+            Title = "Project title",
+            Status = "NEW",
+            UserDto = new UserDto
+            {
+                FirstName = "Test FirstName",
+                LastName = "Test LastName",
+                Email = "mail@test.com"
+            },
+            CreatedAt = DateTimeOffset.Now.Date,
+            Description = "Test Description",
+            TribeDto = new TribeDto
+            {
+                Id = 1,
+                Name = "Test Tribe",
+            },
+            ProgrammingLanguageDtos = new List<ProgrammingLanguageDto>
+            { }
+        };
+
+        // Act
+        ProjectViewModel result = mapper.Map(projectDto);
+
+        // Assert
+        result.ProgrammingLanguages.Should().ContainSingle().Which.Should().Be(PlaceHolder.NotSpecified);
+    }
+
+    [Test]
+    public void Map_WhenTribeDtoIsNull_SetsTribeNameToNotAssigned()
+    {
+        // Arrange
+        ProjectViewModelMapper mapper = new();
+        ProjectDto projectDto = new()
+        {
+            Id = 1,
+            Title = "Project title",
+            Status = "NEW",
+            UserDto = new UserDto
+            {
+                FirstName = "Test FirstName",
+                LastName = "Test LastName",
+                Email = "mail@test.com"
+            },
+            CreatedAt = DateTimeOffset.Now.Date,
+            Description = "Test Description",
+            TribeDto = null,
+            ProgrammingLanguageDtos = new List<ProgrammingLanguageDto>
+            {
+                new()
+                {
+                    Id = 1,
+                    Name = "C#"
+                },
+                new()
+                {
+                    Id = 2,
+                    Name = "Brainfuck"
+                }
+            },
+        };
+      
+        // Act
+        ProjectViewModel result = mapper.Map(projectDto);
+
+        // Assert
+        result.TribeName.Should().Be(PlaceHolder.NotAssigned);
     }
 }

@@ -23,6 +23,9 @@ public class ProjectHubSqLiteDbContext : DbContext
     {
         modelBuilder.SeedProgrammingLanguage();
         modelBuilder.SeedTribe();
+        modelBuilder.SeedUser();
+        modelBuilder.SeedProject();
+        modelBuilder.SeedProjectProgrammingLanguages();
 
         modelBuilder.Entity<ProjectProgrammingLanguages>().HasKey(sc => new
         {

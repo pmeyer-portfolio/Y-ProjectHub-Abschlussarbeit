@@ -53,7 +53,7 @@ public class ProjectServiceTests
         {
             Title = "Test Title",
             Description = "Test Description",
-            CreatedBy = new UserDto
+            UserDto = new UserDto
             {
                 FirstName = "Test FirstName",
                 LastName = "Test LastName",

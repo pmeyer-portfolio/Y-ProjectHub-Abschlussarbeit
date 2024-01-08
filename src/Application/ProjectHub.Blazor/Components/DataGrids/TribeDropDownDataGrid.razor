@@ -1,11 +1,11 @@
 ﻿<RadzenFormField Variant="Variant.Outlined">
-    <RadzenDropDownDataGrid TValue="int?"
-                            Placeholder="Wähle keine oder einen Tribe."
+    <RadzenDropDownDataGrid TValue="object"
+                            Placeholder="Wähle keinen oder einen Tribe."
                             FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
                             AllowSorting="true"
                             Data="Tribes"
                             TextProperty="Name"
                             AllowClear="true"
                             Change="OnValueChanged"
-                            ValueProperty="Id"/>
+                            ValueProperty="Name"/>
 </RadzenFormField>
