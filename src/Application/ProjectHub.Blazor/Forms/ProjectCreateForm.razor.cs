@@ -1,5 +1,4 @@
-﻿#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-namespace ProjectHub.Blazor.Forms;
+﻿namespace ProjectHub.Blazor.Forms;
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -11,7 +10,7 @@ public partial class ProjectCreateForm
     public required ProjectCreateDto ProjectCreateDto { get; set; }
 
     [Inject]
-    private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+    private AuthenticationStateProvider AuthenticationStateProvider { get; set; } = null!;
 
     private void HandleTribeSelected(int selectedId)
     {

@@ -32,7 +32,7 @@ public partial class Create
 
     private async Task Submit()
     {
-        this.projectCreateDto.Created = DateTime.Now;
+        this.projectCreateDto.Created = DateTimeOffset.UtcNow;
         await this.SetLoggedInUserAsProjectCreator();
 
         Response<int> response = await this.Service.Create(this.projectCreateDto);

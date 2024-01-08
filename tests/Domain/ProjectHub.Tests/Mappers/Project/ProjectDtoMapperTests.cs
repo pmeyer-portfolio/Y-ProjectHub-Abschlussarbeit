@@ -1,7 +1,9 @@
 ﻿namespace ProjectHub.Tests.Mappers.Project;
 
 using FluentAssertions;
+using ProjectHub.Abstractions.DTOs.ProgrammingLanguage;
 using ProjectHub.Abstractions.DTOs.Project;
+using ProjectHub.Abstractions.DTOs.Tribe;
 using ProjectHub.Abstractions.DTOs.User;
 using ProjectHub.Data.Abstractions.Entities;
 using ProjectHub.Mappers.Project;
@@ -61,22 +63,34 @@ public class ProjectDtoMapperTests
         {
             Title = project.Title,
             Description = project.Description,
-            CreatedBy = new UserDto
+            UserDto = new UserDto
             {
                 FirstName = project.User.FirstName,
                 LastName = project.User.LastName,
                 Email = project.User.Email,
             },
-            CreatedAt = project.Created,
-            TribeName = project.Tribe.Name,
+            CreatedAt = project.Created.ToLocalTime(),
+            TribeDto = new TribeDto
+            {
+                Id = project.Tribe.Id,
+                Name = project.Tribe.Name,
+            },
             Status = project.Status,
             Id = project.Id,
+            ProgrammingLanguageDtos = new List<ProgrammingLanguageDto>()
         };
 
 
         foreach (ProjectProgrammingLanguages projectProjectProgrammingLanguage in project.projectProgrammingLanguages)
         {
-            expectedDto.ProgrammingLanguages.Add(projectProjectProgrammingLanguage.ProgrammingLanguage.Name);
+            if (projectProjectProgrammingLanguage.ProgrammingLanguage != null)
+            {
+                expectedDto.ProgrammingLanguageDtos.Add(new ProgrammingLanguageDto
+                {
+                    Id = projectProjectProgrammingLanguage.ProgrammingLanguage.Id,
+                    Name = projectProjectProgrammingLanguage.ProgrammingLanguage.Name
+                });
+            }
         }
 
         //Act
@@ -95,7 +109,6 @@ public class ProjectDtoMapperTests
         {
             Title = "Test Title",
             Description = "Test Description",
-            TribeId = 1,
             User = new User
             {
                 FirstName = "Test FirstName",
@@ -138,14 +151,18 @@ public class ProjectDtoMapperTests
             {
                 Title = project.Title,
                 Description = project.Description,
-                CreatedBy = new UserDto
+                UserDto = new UserDto
                 {
                     FirstName = project.User.FirstName,
                     LastName = project.User.LastName,
                     Email = project.User.Email,
                 },
-                CreatedAt = project.Created,
-                TribeName = project.Tribe.Name,
+                CreatedAt = project.Created.ToLocalTime(),
+                TribeDto = new TribeDto
+                {
+                    Id = project.Tribe.Id,
+                    Name = project.Tribe.Name,
+                },
                 Status = project.Status,
                 Id = project.Id,
             }
@@ -153,7 +170,14 @@ public class ProjectDtoMapperTests
 
         foreach (ProjectProgrammingLanguages projectProjectProgrammingLanguage in project.projectProgrammingLanguages)
         {
-            expectedDtos.First().ProgrammingLanguages.Add(projectProjectProgrammingLanguage.ProgrammingLanguage!.Name);
+            if (projectProjectProgrammingLanguage.ProgrammingLanguage != null)
+            {
+                expectedDtos.First().ProgrammingLanguageDtos.Add(new ProgrammingLanguageDto
+                {
+                    Id = projectProjectProgrammingLanguage.ProgrammingLanguage.Id,
+                    Name = projectProjectProgrammingLanguage.ProgrammingLanguage.Name
+                });
+            }
         }
 
         //Act
@@ -182,13 +206,15 @@ public class ProjectDtoMapperTests
         ProjectDto expectedProjectDto = new()
         {
             Title = project.Title,
+            Status = "New",
             Description = project.Description,
-            CreatedBy = new UserDto
+            UserDto = new UserDto
             {
                 FirstName = project.User.FirstName,
                 LastName = project.User.LastName,
                 Email = project.User.Email
-            }
+            },
+            CreatedAt = project.Created.ToLocalTime()
         };
 
         //Act

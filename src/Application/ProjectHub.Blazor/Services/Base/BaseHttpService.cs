@@ -1,5 +1,6 @@
 ﻿namespace ProjectHub.Blazor.Services.Base;
 
+using ProjectHub.Blazor.Constants;
 using ProjectHub.Blazor.Models;
 
 public class BaseHttpService
@@ -35,11 +36,11 @@ public class BaseHttpService
             },
             { StatusCode: >= 200 and <= 299 } => new Response<T>
             {
-                Title = "Operation Reported Success",
+                Title = ResponseTitle.OperationSuccess,
                 Success = true
             },
 
-            _ => new Response<T> { Title = "Something went wrong, please try again.", Success = false }
+            _ => new Response<T> { Title = ResponseTitle.UnknownFailure, Success = false }
         };
     }
 

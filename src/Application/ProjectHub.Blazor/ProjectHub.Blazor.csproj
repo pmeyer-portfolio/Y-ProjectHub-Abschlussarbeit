@@ -49,6 +49,11 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Components\TribeDropDownDataGrid.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Projects\Filter.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\Projects\Filter.razor" />
   </ItemGroup>
 
 </Project>
