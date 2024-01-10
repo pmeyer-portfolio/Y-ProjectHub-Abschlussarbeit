@@ -2,9 +2,51 @@
 @attribute [Route(ProjectHubRoute.Details)]
 
 
-@code {
+@if (ProjectDetailsViewModel is not null)
+{
+    <RadzenCard Style="width: 100%" Variant="Variant.Filled">
+        <RadzenRow AlignItems="AlignItems.End">
+            <RadzenColumn Size="8"/>
+            <RadzenColumn Size="4" Style="text-align: right;">
+                <RadzenBadge BadgeStyle="BadgeStyle.Success" Text=@($"{ProjectDetailsViewModel.Status}") />
+                <RadzenBadge BadgeStyle="BadgeStyle.Light" Text=@($"{ProjectDetailsViewModel.CreatedAt:yy. MMMM yyyy}") />
+            </RadzenColumn>
+        </RadzenRow>
 
-    [Parameter]
-    public int Id { get; set; }
-
+        <RadzenRow>
+            <RadzenColumn Size="8">
+                <RadzenText TextStyle="TextStyle.Overline" Text="Projekt-Titel:" />
+                <RadzenText TextStyle="TextStyle.Body2" Text="@ProjectDetailsViewModel.Title" />
+            </RadzenColumn>
+        </RadzenRow>
+        <hr style="border: none; background-color: var(--rz-text-disabled-color); height: 1px; margin: 1rem 0;"/>
+        <RadzenRow>
+            <RadzenColumn Size="10">
+                <RadzenText TextStyle="TextStyle.Overline" Text="Projekt-Beschreibung:"/>
+                <RadzenText TextStyle="TextStyle.Body2" TextAlign="TextAlign.Justify">@ProjectDetailsViewModel.Description</RadzenText>
+            </RadzenColumn>
+            <RadzenColumn Size="2"/>
+        </RadzenRow>
+        <hr style="border: none; background-color: var(--rz-text-disabled-color); height: 1px; margin: 1rem 0;"/>
+        <RadzenRow>
+            <RadzenColumn Size="8" class="rz-text-truncate">
+                <RadzenText TextStyle="TextStyle.Overline" Text="Programmiersprache/n: "></RadzenText>
+                <br/>
+                @foreach (string programmingLanguage in ProjectDetailsViewModel.ProgrammingLanguages)
+                {
+                    <RadzenText TextStyle="TextStyle.Body2">@programmingLanguage</RadzenText>
+                }
+            </RadzenColumn>
+        </RadzenRow>
+        <hr style="border: none; background-color: var(--rz-text-disabled-color); height: 1px; margin: 1rem 0;"/>
+        <RadzenRow>
+            <RadzenColumn Size="8" class="rz-text-truncate">
+                <RadzenText TextStyle="TextStyle.Overline" Text="Kontaktinformationen: "></RadzenText>
+                <br/>
+                <RadzenText TextStyle="TextStyle.Body2" Class="rz-mb-0">@ProjectDetailsViewModel.CreatedBy</RadzenText>
+                <RadzenText TextStyle="TextStyle.Body2">@ProjectDetailsViewModel.TribeName</RadzenText>
+                <RadzenText TextStyle="TextStyle.Body2">@ProjectDetailsViewModel.CreatorEmail</RadzenText>
+            </RadzenColumn>
+        </RadzenRow>
+    </RadzenCard>
 }

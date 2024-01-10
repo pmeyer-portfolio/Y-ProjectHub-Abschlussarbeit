@@ -2,7 +2,7 @@
 
 public abstract class PlaceHolder
 {
-    public const string NotAssigned = "Keine Zuordnung";
+    public const string NotAssigned = "Kein Tribe zugeordnet";
     public const string NotSpecified = "Keine Spezifikation";
     public const string FromDateTime = "Von: ";
     public const string ToDateTime = "Bis: ";

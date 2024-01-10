@@ -8,11 +8,13 @@ using ProjectHub.Blazor.Services.Contracts;
 public class ProjectService : BaseHttpService, IProjectService
 {
     private IProjectViewModelMapper ProjectViewModelMapper { get; }
+    private IProjectDetailsViewModelMapper ProjectDetailsViewModelMapper { get; }
 
-    public ProjectService(IProjectHubApiClient apiClient, IProjectViewModelMapper projectViewModelMapper)
+    public ProjectService(IProjectHubApiClient apiClient, IProjectViewModelMapper projectViewModelMapper, IProjectDetailsViewModelMapper projectDetailsViewModelMapper)
         : base(apiClient)
     {
         this.ProjectViewModelMapper = projectViewModelMapper;
+        this.ProjectDetailsViewModelMapper = projectDetailsViewModelMapper;
         this.apiClient = apiClient;
     }
 
@@ -53,6 +55,26 @@ public class ProjectService : BaseHttpService, IProjectService
             response = this.GetApiExceptionResponse<IList<ProjectViewModel>>(e);
         }
 
+        return response;
+    }
+
+    public async Task<Response<ProjectDetailsViewModel>> GetById(int id)
+    {
+        Response<ProjectDetailsViewModel> response;
+
+        try
+        {
+            ProjectDto projectDto= await this.apiClient.ApiProjectsGetAsync(id);
+            response = new Response<ProjectDetailsViewModel>()
+            {
+                Success = true,
+                Data = this.ProjectDetailsViewModelMapper.Map(projectDto)
+            };
+        }
+        catch (ApiException<ProblemDetails> e)
+        {
+            response = this.GetApiExceptionResponse<ProjectDetailsViewModel>(e);
+        }
         return response;
     }
 }

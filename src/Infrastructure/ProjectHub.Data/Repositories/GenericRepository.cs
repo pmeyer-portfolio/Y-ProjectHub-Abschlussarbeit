@@ -2,6 +2,7 @@
 
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
+using ProjectHub.Data.Abstractions.Entities;
 using ProjectHub.Data.Abstractions.IRepositories;
 using ProjectHub.Data.Contexts;
 

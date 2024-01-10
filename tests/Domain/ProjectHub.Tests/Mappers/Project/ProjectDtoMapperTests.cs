@@ -1,6 +1,7 @@
 ﻿namespace ProjectHub.Tests.Mappers.Project;
 
 using FluentAssertions;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using ProjectHub.Abstractions.DTOs.ProgrammingLanguage;
 using ProjectHub.Abstractions.DTOs.Project;
 using ProjectHub.Abstractions.DTOs.Tribe;
@@ -223,4 +224,47 @@ public class ProjectDtoMapperTests
         //Assert
         result.Should().BeEquivalentTo(expectedProjectDto);
     }
+
+    [Test]
+    public void Map_WhenProjectsIsNull_ReturnsEmptyList()
+    {
+        // Arrange
+        IList<Project>? projects = null;
+        
+        // Act
+        IList<ProjectDto> result = this.dtoMapper.Map(projects);
+
+        // Assert
+        result.Should().NotBeNull();
+        result.Should().BeEmpty();
+    }
+
+    [Test]
+    public void Map_WhenUserIsNull_ReturnsUserDtoEqualsNull()
+    {
+        //Arrange 
+        Project project = new()
+        {
+            Title = "Test Title",
+            Description = "Test Description",
+            User = null,
+        };
+
+        ProjectDto expectedProjectDto = new ProjectDto()
+        {
+            Title = project.Title,
+            Description = project.Description,
+            UserDto = null,
+            Status = project.Status,
+            CreatedAt = project.Created.ToLocalTime()
+        };
+
+        //Act
+        ProjectDto result = this.dtoMapper.Map(project);
+
+        //Assert 
+        result.Should().BeEquivalentTo(expectedProjectDto);
+        result.UserDto.Should().Be(null);
+    }
+
 }

@@ -16,12 +16,15 @@ public class ProjectServiceTests
     {
         this.projectHubApiClient = Substitute.For<IProjectHubApiClient>();
         this.projectViewModelMapper = Substitute.For<IProjectViewModelMapper>();
-        this.projectService = new ProjectService(this.projectHubApiClient, this.projectViewModelMapper);
+        this.projectDetailsViewModelMapper = Substitute.For<IProjectDetailsViewModelMapper>();
+        this.projectService = new ProjectService(this.projectHubApiClient, this.projectViewModelMapper,
+            this.projectDetailsViewModelMapper);
     }
 
     private ProjectService projectService = null!;
     private IProjectHubApiClient projectHubApiClient = null!;
     private IProjectViewModelMapper projectViewModelMapper = null!;
+    private IProjectDetailsViewModelMapper projectDetailsViewModelMapper = null!;
 
     [Test]
     public async Task Create_WhenApiExceptionOccurs_ReturnsErrorResponse()
@@ -102,5 +105,45 @@ public class ProjectServiceTests
         result.Should().NotBeNull();
         result.Success.Should().BeTrue();
         result.Data.Should().BeEquivalentTo(projectViewModels);
+    }
+
+    [Test]
+    public async Task GetById_WhenApiExceptionOccurs_ReturnsErrorResponse()
+    {
+        // Arrange
+        int projectId = 1;
+        ApiException<ProblemDetails> apiException = new ApiException<ProblemDetails>("Error message", 404,
+            "Error details", new Dictionary<string, IEnumerable<string>>(), new ProblemDetails(), new Exception());
+        this.projectHubApiClient.ApiProjectsGetAsync(projectId).Throws(apiException);
+
+        // Act
+        Response<ProjectDetailsViewModel> result = await this.projectService.GetById(projectId);
+
+        // Assert
+        result.Success.Should().BeFalse();
+        result.Should().NotBeNull();
+        result.Success.Should().BeFalse();
+    }
+
+    [Test]
+    public async Task GetById_WhenCalled_ReturnsSuccessWithData()
+    {
+        // Arrange
+        const int projectId = 1;
+        ProjectDto projectDto = new();
+        ProjectDetailsViewModel projectDetailsViewModel = new ProjectDetailsViewModel
+        {
+            CreatorEmail = "test@mail.com"
+        };
+        this.projectHubApiClient.ApiProjectsGetAsync(projectId).Returns(projectDto);
+        this.projectDetailsViewModelMapper.Map(projectDto).Returns(projectDetailsViewModel);
+
+        // Act
+        Response<ProjectDetailsViewModel> result = await this.projectService.GetById(projectId);
+
+        // Assert
+        result.Should().NotBeNull();
+        result.Success.Should().BeTrue();
+        result.Data.Should().BeEquivalentTo(projectDetailsViewModel);
     }
 }

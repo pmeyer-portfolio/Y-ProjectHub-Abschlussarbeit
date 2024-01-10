@@ -30,4 +30,19 @@ public class ProjectsController : ControllerBase
     {
         return this.Ok(await this.projectService.GetAsync());
     }
+
+    [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult<ProjectDto>> GetById(int id)
+    {
+        ProjectDto? dto = await this.projectService.GetByIdAsync(id);
+
+        if (dto == null)
+        {
+            return this.NotFound();
+        }
+
+        return this.Ok(dto);
+    }
 }
