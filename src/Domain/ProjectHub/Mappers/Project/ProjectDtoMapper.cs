@@ -25,8 +25,6 @@ public class ProjectDtoMapper : IProjectDtoMapper
             }
         }
 
-        string? tribeName = project.Tribe?.Name;
-
         ProjectDto projectDto = new()
         {
             Id = project.Id,
@@ -34,14 +32,20 @@ public class ProjectDtoMapper : IProjectDtoMapper
             Title = project.Title,
             ProgrammingLanguageDtos = languages,
             CreatedAt = project.Created.ToLocalTime(),
-            Status = project.Status,
-            UserDto = new UserDto
+            Status = project.Status
+        };
+
+        if (project.User != null)
+        {
+            projectDto.UserDto = new UserDto
             {
                 FirstName = project.User!.FirstName,
                 LastName = project.User.LastName,
                 Email = project.User.Email,
-            }
-        };
+            };
+        }
+    
+
         if (project.Tribe == null)
         {
             projectDto.TribeDto = null;
@@ -55,7 +59,6 @@ public class ProjectDtoMapper : IProjectDtoMapper
             };
         }
         
-
         return projectDto;
     }
 

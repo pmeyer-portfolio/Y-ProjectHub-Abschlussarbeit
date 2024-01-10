@@ -61,7 +61,7 @@ public class BaseHttpServiceTests
         Response<string> response = this.baseHttpService.GetApiExceptionResponse<string>(apiException);
 
         // Assert
-        response.Title.Should().Be("Operation Reported Success");
+        response.Title.Should().Be(ResponseTitle.OperationSuccess);
         response.Success.Should().BeTrue();
     }
 

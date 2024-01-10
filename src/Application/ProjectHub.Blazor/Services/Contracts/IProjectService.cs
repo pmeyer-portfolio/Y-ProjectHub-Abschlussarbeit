@@ -7,4 +7,5 @@ public interface IProjectService
 {
     Task<Response<int>> Create(ProjectCreateDto projectCreateDto);
     Task<Response<IList<ProjectViewModel>>> GetAll();
+    Task<Response<ProjectDetailsViewModel>> GetById(int id);
 }

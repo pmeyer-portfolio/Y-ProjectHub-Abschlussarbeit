@@ -45,6 +45,16 @@ public class ProjectService : IProjectService
         return this.projectDtoMapper.Map(projects);
     }
 
+    public async Task<ProjectDto?> GetByIdAsync(int id)
+    {
+        Project? project = await this.projectRepository.GetByIdAsync(id);
+        if (project == null)
+        {
+            return null;
+        }
+        return this.projectDtoMapper.Map(project);
+    }
+    
     private async Task EnsureUserExists(UserCreateDto userDto)
     {
         User user = this.userMapper.Map(userDto);

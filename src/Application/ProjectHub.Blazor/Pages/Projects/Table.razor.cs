@@ -1,8 +1,8 @@
 ﻿namespace ProjectHub.Blazor.Pages.Projects;
 
 using Microsoft.AspNetCore.Components;
-using ProjectHub.Blazor.Constants;
 using ProjectHub.Blazor.Models;
+using Radzen;
 using Radzen.Blazor;
 
 public partial class Table
@@ -17,14 +17,19 @@ public partial class Table
     [Inject]
     public NavigationManager NavigationManager { get; set; } = null!;
 
+    [Inject]
+    public DialogService DialogService { get; set; } = null!;
+
     protected override void OnInitialized()
     {
         this.filteredProjects = this.Projects;
     }
 
-    private void OpenDetailsView(int projectsId)
+    private async Task OpenDetailsView(int projectId)
     {
-        this.NavigationManager.NavigateTo(ProjectHubRoute.Details.Replace("{id:int}", projectsId.ToString()));
+        await this.DialogService.OpenAsync<Details>("Projektdetails",
+            new Dictionary<string, object> { { "ProjectId", projectId } },
+            ProjectDetailsDialogOptions.GetDefault());
     }
 
     private void OnProjectsFiltered(IList<ProjectViewModel> projects)

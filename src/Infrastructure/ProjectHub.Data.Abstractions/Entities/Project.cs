@@ -6,13 +6,6 @@ public class Project
 {
     public IList<ProjectProgrammingLanguages> projectProgrammingLanguages = new List<ProjectProgrammingLanguages>();
 
-    public static readonly Project NotFound = new()
-    {
-        Id = -1,
-        Title = "Project not found Title",
-        Description = "Project not found Description"
-    };
-
     public int Id { get; set; }
     public required string Title { get; set; }
     public required string Description { get; set; }

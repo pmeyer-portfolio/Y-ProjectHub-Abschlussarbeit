@@ -20,4 +20,14 @@ public class ProjectRepository : GenericRepository<Project>
             .ThenInclude(ppl => ppl.ProgrammingLanguage)
             .ToListAsync();
     }
+
+    public override async Task<Project?> GetByIdAsync(int id)
+    {
+        return await this.context.Projects
+            .Include(p => p.Tribe)
+            .Include(p => p.User)
+            .Include(p => p.projectProgrammingLanguages)
+            .ThenInclude(ppl => ppl.ProgrammingLanguage)
+            .FirstOrDefaultAsync(p => p.Id == id);
+    }
 }

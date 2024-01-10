@@ -159,4 +159,36 @@ public class ProjectServiceTests
 
         this.validator.Received(1).Validate(Arg.Is<ProjectCreateDto>(d => d == projectCreateDto));
     }
+
+    [Test]
+    public async Task GetByIdAsync_WhenProjectExists_ReturnsMappedProject()
+    {
+        // Arrange
+        const int projectId = 1;
+        Project testProject = GetTestProject();
+        ProjectDto testProjectDto = GetTestProjectDto();
+        this.projectRepository.GetByIdAsync(projectId).Returns(testProject);
+        this.projectDtoMapper.Map(testProject).Returns(testProjectDto);
+
+        // Act
+        ProjectDto? result = await this.service.GetByIdAsync(projectId);
+
+        // Assert
+        result.Should().BeEquivalentTo(testProjectDto);
+    }
+
+    [Test]
+    public async Task GetByIdAsync_WhenProjectDoesNotExist_ReturnsNotFoundProjectDto()
+    {
+        // Arrange
+        const int projectId = 1;
+        Project? project = null;
+        this.projectRepository.GetByIdAsync(projectId).Returns(Task.FromResult(project));
+    
+        // Act
+        ProjectDto? result = await this.service.GetByIdAsync(projectId);
+
+        // Assert
+        result.Should().BeNull();
+    }
 }
