@@ -21,4 +21,8 @@ public partial class ProjectCreateForm
     {
         this.ProjectCreateDto.Languages = selectedIds;
     }
+    private void OnChange(string input)
+    {
+        this.ProjectCreateDto.Description = input;
+    }
 }
