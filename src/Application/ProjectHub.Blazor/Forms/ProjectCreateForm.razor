@@ -10,7 +10,22 @@
                 </RadzenFormField>
                 <DataAnnotationsValidator/>
                 <RadzenFormField Text="Beschreibung" Variant="Variant.Outlined">
-                    <RadzenTextArea @bind-Value="@ProjectCreateDto.Description"/>
+                    <RadzenHtmlEditor style="height: 350px; width: 300px" Change="OnChange">
+                        <RadzenHtmlEditorFontSize/>
+                        <RadzenHtmlEditorUndo/>
+                        <RadzenHtmlEditorRedo/>
+                        <RadzenHtmlEditorSeparator/>
+                        <RadzenHtmlEditorBold/>
+                        <RadzenHtmlEditorItalic/>
+                        <RadzenHtmlEditorUnderline/>
+                        <RadzenHtmlEditorSeparator/>
+                        <RadzenHtmlEditorRemoveFormat/>
+                        <RadzenHtmlEditorAlignCenter/>
+                        <RadzenHtmlEditorAlignLeft/>
+                        <RadzenHtmlEditorAlignRight/>
+                        <RadzenHtmlEditorUnorderedList/>
+                        <RadzenHtmlEditorOrderedList/>
+                    </RadzenHtmlEditor>
                 </RadzenFormField>
             </RadzenStack>
         </RadzenColumn>
