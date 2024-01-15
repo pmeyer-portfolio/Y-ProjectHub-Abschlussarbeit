@@ -18,6 +18,27 @@ public class ProjectMapperTests
     private ProjectMapper projectMapper;
 
     [Test]
+    [TestCase("Status update")]
+    public void Map_UpdatesProjectFromDto(string update)
+    {
+        // Arrange
+        Project project = new()
+        {
+            Title = "Test title",
+            Description = "Test description",
+            Status = "New"
+        };
+        ProjectUpdateDto projectUpdateDto = new() { Status = update};
+
+        // Act
+        Project result = this.projectMapper.Map(project, projectUpdateDto);
+
+        // Assert
+        result.Should().BeSameAs(project);
+        result.Status.Should().Be(update);
+    }
+
+    [Test]
     public void MapCreateDtoToProject_WithLanguageIdNotChosen_MapsProjectWithEmptyLanguagesReferenceList()
     {
         // Arrange

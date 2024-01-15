@@ -21,6 +21,7 @@ public class ProjectRepository : GenericRepository<Project>
             .ToListAsync();
     }
 
+  
     public override async Task<Project?> GetByIdAsync(int id)
     {
         return await this.context.Projects
@@ -29,5 +30,11 @@ public class ProjectRepository : GenericRepository<Project>
             .Include(p => p.projectProgrammingLanguages)
             .ThenInclude(ppl => ppl.ProgrammingLanguage)
             .FirstOrDefaultAsync(p => p.Id == id);
+    }
+
+    public new async Task UpdateAsync(Project entity)
+    {
+        this.context.Update(entity);
+        await context.SaveChangesAsync();
     }
 }

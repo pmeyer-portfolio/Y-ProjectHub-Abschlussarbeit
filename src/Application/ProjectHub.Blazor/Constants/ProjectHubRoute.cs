@@ -10,4 +10,5 @@ public abstract class ProjectHubRoute
     public const string Create = "create";
     public const string Projects = "projects";
     public const string Details = "/project/details/{id:int}";
+    public const string Edit = "/projects/edit/{property}";
 }

@@ -1,0 +1,50 @@
+﻿@using ProjectHub.Blazor.Constants
+@using ProjectHub.Blazor.Extensions
+@attribute [Route(ProjectHubRoute.Edit)]
+
+@inject DialogService DialogService
+<RadzenStack>
+    <RadzenDropDownDataGrid TValue="string"
+                            Placeholder="@PlaceHolder.StatusFilter"
+                            Style="width: auto"
+                            Visible="true"
+                            FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                            AllowSorting="true"
+                            Data="Enum.GetValues(typeof(ProjectStatus)).Cast<ProjectStatus>().Select(e => e.GetDescription()).ToList()"
+                            AllowClear="true"
+                            @bind-Value="StatusValue"
+                            Change="@(args => OnValueChange(args))"/>
+    <RadzenRow>
+        <RadzenColumn>
+            <RadzenText TextStyle="TextStyle.Overline"
+                        Class="rz-mt-2 rz-my-0"
+                        Style="color: var(--rz-text-tertiary-color);"
+                        Text="Aktueller Status"/>
+            <RadzenText TextStyle="TextStyle.Body1"
+                        Class="rz-text-truncate"
+                        Text="@(Value)"/>
+        </RadzenColumn>
+        <RadzenColumn>
+            <RadzenText TextStyle="TextStyle.Overline"
+                        Class="rz-mt-2 rz-my-0"
+                        Style="color: var(--rz-text-tertiary-color);"
+                        Text="Aktualisierter Status"/>
+            <RadzenText TextStyle="TextStyle.Body1"
+                        Class="rz-text-truncate"
+                        Text="@(StatusValue)"/>
+        </RadzenColumn>
+    </RadzenRow>
+    <RadzenButton ButtonType="ButtonType.Submit"
+                  ButtonStyle="ButtonStyle.Primary"
+                  Click="() => DialogService.Close(StatusValue)"
+                  Text="Ok"/>
+</RadzenStack>
+
+<style>
+    .edit-dialog-position {
+        position: fixed;
+        top: 20%;
+        left: 60%;
+        z-index: 1050;
+    }
+</style>

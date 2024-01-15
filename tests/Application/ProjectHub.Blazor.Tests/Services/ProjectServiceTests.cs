@@ -18,13 +18,14 @@ public class ProjectServiceTests
         this.projectViewModelMapper = Substitute.For<IProjectViewModelMapper>();
         this.projectDetailsViewModelMapper = Substitute.For<IProjectDetailsViewModelMapper>();
         this.projectService = new ProjectService(this.projectHubApiClient, this.projectViewModelMapper,
-            this.projectDetailsViewModelMapper);
+            this.projectDetailsViewModelMapper, this.projectUpdateDtoMapper);
     }
 
     private ProjectService projectService = null!;
     private IProjectHubApiClient projectHubApiClient = null!;
     private IProjectViewModelMapper projectViewModelMapper = null!;
     private IProjectDetailsViewModelMapper projectDetailsViewModelMapper = null!;
+    private IProjectUpdateDtoMapper projectUpdateDtoMapper = null!;
 
     [Test]
     public async Task Create_WhenApiExceptionOccurs_ReturnsErrorResponse()

@@ -1,6 +1,7 @@
-﻿namespace ProjectHub.Blazor.Pages.Projects;
+﻿﻿namespace ProjectHub.Blazor.Pages.Projects;
 
 using Microsoft.AspNetCore.Components;
+using ProjectHub.Blazor.Constants;
 using ProjectHub.Blazor.Initializer;
 using ProjectHub.Blazor.Models;
 using ProjectHub.Blazor.Services.Base;
@@ -12,12 +13,7 @@ public partial class Filter
     private DateTime? fromDateFilterValue, toDateFilterValue, specificDateFilterValue;
     private bool selectBarValue = false, filterByRange = true;
 
-    private IList<string> status = new List<string>
-    {
-        "New",
-    };
-
-    [Inject]
+    [Inject] 
     public IDropDownDataGridInitializer DropDownDataGridInitializer { get; set; } = null!;
     [Inject] 
     public IProjectFilterService ProjectFilterService { get; set; } = null!;
@@ -30,7 +26,7 @@ public partial class Filter
     private IList<TribeDto>? Tribes { get; set; }
     private IList<ProgrammingLanguageDto>? ProgrammingLanguages { get; set; }
     private IList<ProjectViewModel> FilteredProjects { get; set; } = new List<ProjectViewModel>();
-
+     
     protected override async Task OnInitializedAsync()
     {
         this.Tribes = await this.DropDownDataGridInitializer.InitializeTribes();

@@ -1,12 +1,11 @@
-﻿using FluentAssertions;
+﻿namespace ProjectHub.Data.Tests.Repositories;
+
+using System.Reflection;
+using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
+using NSubstitute;
 using ProjectHub.Data.Abstractions.Entities;
 using ProjectHub.Data.Repositories;
-
-#pragma warning disable CS0169 // Field is never used
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable. Set in Setup.
-
-namespace ProjectHub.Data.Tests.Repositories;
 
 [TestFixture]
 public class ProjectRepositoryTests : RepositoryTestBase
@@ -23,8 +22,8 @@ public class ProjectRepositoryTests : RepositoryTestBase
         };
     }
 
-    private Project project;
-    private ProjectRepository repository;
+    private Project project = null!;
+    private ProjectRepository repository = null!;
 
     [Test]
     public async Task AddAsync_ShouldAddProgrammingLanguages()
@@ -33,7 +32,7 @@ public class ProjectRepositoryTests : RepositoryTestBase
         await this.repository.AddAsync(this.project);
 
         // Assert
-        var result = await this.dbContext.Projects.FindAsync(this.project.Id);
+        Project? result = await this.dbContext.Projects.FindAsync(this.project.Id);
         result.Should().NotBeNull();
         result.Should().BeEquivalentTo(this.project);
     }
@@ -99,7 +98,7 @@ public class ProjectRepositoryTests : RepositoryTestBase
         await this.repository.AddAsync(this.project);
 
         // Act
-        var result = await this.dbContext.Projects.FindAsync(this.project.Id);
+        Project? result = await this.dbContext.Projects.FindAsync(this.project.Id);
 
         // Assert
         result!.Id.Should().Be(this.project.Id);
@@ -113,7 +112,7 @@ public class ProjectRepositoryTests : RepositoryTestBase
         await this.repository.AddAsync(this.project);
 
         // Act
-        var result = await this.repository.GetByIdAsync(requestId);
+        Project? result = await this.repository.GetByIdAsync(requestId);
 
         // Assert
         result.Should().BeNull();
@@ -135,7 +134,7 @@ public class ProjectRepositoryTests : RepositoryTestBase
         await this.repository.AddAsync(this.project);
 
         //Act
-        var result = (await this.repository.GetByIdAsync(requestId))!;
+        Project result = (await this.repository.GetByIdAsync(requestId))!;
 
         //Assert
         result.Should().NotBeNull();
@@ -183,7 +182,7 @@ public class ProjectRepositoryTests : RepositoryTestBase
         await this.repository.AddAsync(this.project);
 
         //Act
-        var result = await this.repository.GetAllAsync();
+        IList<Project> result = await this.repository.GetAllAsync();
 
         //Assert
         result.Should().NotBeNull();
@@ -206,7 +205,7 @@ public class ProjectRepositoryTests : RepositoryTestBase
         await this.repository.AddAsync(this.project);
 
         //Act
-        var result = (await this.repository.GetByIdAsync(requestId))!;
+        Project result = (await this.repository.GetByIdAsync(requestId))!;
 
         //Assert
         result.Should().NotBeNull();
@@ -244,7 +243,7 @@ public class ProjectRepositoryTests : RepositoryTestBase
         await this.repository.AddAsync(this.project);
 
         //Act
-        var result = (await this.repository.GetByIdAsync(requestId))!;
+        Project result = (await this.repository.GetByIdAsync(requestId))!;
 
         //Assert
         result.Should().NotBeNull();
@@ -253,5 +252,23 @@ public class ProjectRepositoryTests : RepositoryTestBase
         result.Description.Should().Be(this.project.Description);
         result.TribeId.Should().BeNull();
         result.projectProgrammingLanguages[0].ProgrammingLanguage!.Name.Should().Be(language.Name);
+    }
+
+    [Test]
+    [TestCase("Updated title")]
+    public async Task UpdateAsync_UpdatesEntity(string title)
+    {
+        // Arrange
+        await this.dbContext.AddAsync(this.project);
+        await this.dbContext.SaveChangesAsync();
+
+        this.project.Title = title;
+
+        // Act
+        await this.repository.UpdateAsync(this.project);
+
+        // Assert
+        Project? updatedEntity = await this.dbContext.Projects.FindAsync(this.project.Id);
+        updatedEntity!.Title.Should().Be(title);
     }
 }

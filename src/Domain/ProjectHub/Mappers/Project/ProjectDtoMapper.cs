@@ -43,9 +43,7 @@ public class ProjectDtoMapper : IProjectDtoMapper
                 LastName = project.User.LastName,
                 Email = project.User.Email,
             };
-        }
-    
-
+        };
         if (project.Tribe == null)
         {
             projectDto.TribeDto = null;

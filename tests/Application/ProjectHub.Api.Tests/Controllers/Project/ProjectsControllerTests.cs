@@ -20,12 +20,12 @@ public class ProjectsControllerTests
     [TearDown]
     public void TearDown()
     {
-      this.projectService.ClearReceivedCalls();
+        this.projectService.ClearReceivedCalls();
     }
 
     private ProjectsController projectsController = null!;
     private IProjectService projectService = null!;
-
+    
     [Test]
     public async Task GetAsync_ReturnsOkWithProjects()
     {
@@ -53,12 +53,12 @@ public class ProjectsControllerTests
 
         // Act
         ActionResult<ProjectDto> result = await this.projectsController.GetById(testId);
-        NotFoundResult? notFoundResult = result.Result as NotFoundResult;
 
         // Assert
         await this.projectService.Received(1).GetByIdAsync(testId);
         result.Result.Should().BeOfType<NotFoundResult>();
     }
+
 
     [Test]
     public async Task GetById_ShouldReturnOk_WhenProjectIsFound()
@@ -82,6 +82,7 @@ public class ProjectsControllerTests
         okObjectResult!.Value.Should().BeEquivalentTo(projectDto);
     }
 
+
     [Test]
     public async Task PostProject_ShouldReturnCreatedAtActionResult()
     {
@@ -100,5 +101,43 @@ public class ProjectsControllerTests
         await this.projectService.Received(1).InsertAsync(projectCreateDto);
         result.Result.Should().BeOfType<CreatedAtActionResult>();
         createdResult!.ActionName.Should().Be(nameof(ProjectsController.Create));
+    }
+
+    [Test]
+    [TestCase("Update Status")]
+    public async Task Update_ShouldReturnNotFound_WhenProjectDoesNotExist(string update)
+    {
+        // Arrange
+        ProjectUpdateDto projectUpdateDto = new() { Id = 1, Status = update };
+        this.projectService.Update(projectUpdateDto).Returns(Task.FromResult<ProjectDto?>(null));
+
+        // Act
+        ActionResult<ProjectDto> result = await this.projectsController.Update(projectUpdateDto);
+
+        // Assert
+        await this.projectService.Received(1).Update(projectUpdateDto);
+        result.Result.Should().BeOfType<NotFoundResult>();
+    }
+
+    [Test]
+    [TestCase("Status update")]
+    public async Task Update_ShouldReturnOk_WhenProjectIsUpdated(string update)
+    {
+        // Arrange
+        ProjectUpdateDto projectUpdateDto = new() { Id = 1, Status = update };
+        ProjectDto projectDto = new()
+        {
+            Description = "description",
+            Title = "title",
+            Status = "New"
+        };
+        this.projectService.Update(projectUpdateDto).Returns(Task.FromResult<ProjectDto?>(projectDto));
+
+        // Act
+        ActionResult<ProjectDto> result = await this.projectsController.Update(projectUpdateDto);
+
+        // Assert
+        await this.projectService.Received(1).Update(projectUpdateDto);
+        result.Result.Should().BeOfType<OkObjectResult>();
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace ProjectHub.Blazor.Tests.Mappers
 {
     using FluentAssertions;
+    using Microsoft.AspNetCore.Components;
     using ProjectHub.Blazor.Constants;
     using ProjectHub.Blazor.Mappers;
     using ProjectHub.Blazor.Models;
@@ -140,12 +141,13 @@
             // Arrange
             ProjectDto projectDto = CreateProjectDto();
             projectDto.Description = description;
+            MarkupString descriptionAsMarkup = new(description);
 
             // Act
             ProjectDetailsViewModel result = this.projectDetailsViewModelMapper.Map(projectDto);
 
             // Assert
-            result.Description.Should().Be(description);
+            result.Description.Should().Be(descriptionAsMarkup);
         }
 
         [Test]

@@ -25,8 +25,8 @@ public class GlobalExceptionHandlerMiddleware : IMiddleware
         }
         catch (Exception e)
         {
-            logger.LogError(e, "An Exception occured");
             await HandleExceptionAsync(context, e);
+            this.logger.LogError(e,"An Exception occured.");
         }
     }
 
@@ -39,7 +39,6 @@ public class GlobalExceptionHandlerMiddleware : IMiddleware
             problemDetails.Status = StatusCodes.Status400BadRequest;
             problemDetails.Detail = e.Message;
         }
-
 
         if (problemDetails.Status != null)
         {
