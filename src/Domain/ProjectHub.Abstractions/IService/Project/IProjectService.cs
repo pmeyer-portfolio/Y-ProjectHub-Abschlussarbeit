@@ -8,4 +8,5 @@ public interface IProjectService
     Task InsertAsync(ProjectCreateDto dto);
     Task<IList<ProjectDto>?> GetAsync();
     Task<ProjectDto?> GetByIdAsync(int id);
+    Task<ProjectDto?> Update(ProjectUpdateDto projectUpdateDto);
 }

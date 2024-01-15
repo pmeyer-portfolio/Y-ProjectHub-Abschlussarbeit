@@ -9,23 +9,23 @@ public class ProjectMapper : IProjectMapper
     private const int TribeNoAssignment = 0;
     private const int LanguageNoAssignment = 0;
 
-    public Project Map(ProjectCreateDto dto)
+    public Project Map(ProjectCreateDto projectCreateDto)
     {
         Project project = new()
         {
-            Title = dto.Title!,
-            Description = dto.Description!,
-            TribeId = dto.TribeId,
-            Created = dto.Created,
-            UserUuid = dto.User.Email
+            Title = projectCreateDto.Title!,
+            Description = projectCreateDto.Description!,
+            TribeId = projectCreateDto.TribeId,
+            Created = projectCreateDto.Created,
+            UserUuid = projectCreateDto.User.Email
         };
 
-        if (dto.TribeId <= TribeNoAssignment)
+        if (projectCreateDto.TribeId <= TribeNoAssignment)
         {
             project.TribeId = null;
         }
 
-        foreach (int languageId in dto.Languages)
+        foreach (int languageId in projectCreateDto.Languages)
         {
             if (languageId > LanguageNoAssignment)
             {
@@ -43,5 +43,11 @@ public class ProjectMapper : IProjectMapper
     public IList<Project> Map(IList<ProjectCreateDto> dtos)
     {
         return dtos.Select(this.Map).ToList();
+    }
+
+    public Project Map(Project project, ProjectUpdateDto projectUpdateDto)
+    {
+        project.Status = projectUpdateDto.Status;
+        return project;
     }
 }

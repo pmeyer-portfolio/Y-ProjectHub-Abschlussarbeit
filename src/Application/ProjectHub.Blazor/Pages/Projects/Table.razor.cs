@@ -25,6 +25,13 @@ public partial class Table
         this.filteredProjects = this.Projects;
     }
 
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        this.filteredProjects = this.Projects;
+        this.dataGrid?.Reload();
+    }
+
     private async Task OpenDetailsView(int projectId)
     {
         await this.DialogService.OpenAsync<Details>("Projektdetails",

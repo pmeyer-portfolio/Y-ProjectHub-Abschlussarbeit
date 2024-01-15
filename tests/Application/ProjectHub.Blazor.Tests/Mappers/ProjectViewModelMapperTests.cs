@@ -69,7 +69,6 @@ public class ProjectViewModelMapperTests
             Status = "NEW",
             CreatedBy = "Test FirstName Test LastName",
             CreatedAt = DateTimeOffset.Now.Date,
-            Description = "Test Description",
             TribeName = "Test Tribe",
             ProgrammingLanguages = new List<string>
             {

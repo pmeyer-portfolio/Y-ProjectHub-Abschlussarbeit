@@ -1,5 +1,6 @@
 ﻿namespace ProjectHub.Data.Abstractions.Entities;
 
+using System.Collections.Concurrent;
 using System.ComponentModel.DataAnnotations.Schema;
 
 public class Project
@@ -24,7 +25,9 @@ public class Project
     public string? UserUuid { get; set; }
 }
 
-public static class ProjectStatus
+public abstract class ProjectStatus
 {
-    public const string New = "New";
+    public const string New = "Neu";
+    public const string Done = "Fertig";
+    public const string InProgress = "In Bearbeitung";
 }

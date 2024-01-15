@@ -1,6 +1,8 @@
-﻿@using ProjectHub.Blazor.Components.DataGrids
+﻿﻿@using ProjectHub.Blazor.Components.DataGrids
 @using ProjectHub.Blazor.Constants
 @using ProjectHub.Blazor.Shared
+@using System.Collections
+@using ProjectHub.Blazor.Extensions
 
 <RadzenCard Variant="Variant.Text">
     <RadzenText TextStyle="TextStyle.Subtitle2"
@@ -18,20 +20,20 @@
                                 AllowClear="true"
                                 @bind-Value="tribeNameFilterValue"
                                 Change="@(args => OnValueChange(args))"
-                                ValueProperty="Name"/>
+                                ValueProperty="Name" />
     </RadzenFormField>
-    
+
     <RadzenFormField Variant="Variant.Outlined">
         <RadzenDropDownDataGrid TValue="string"
                                 Placeholder="@PlaceHolder.StatusFilter"
                                 FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
                                 AllowSorting="true"
-                                Data="status"
+                                Data="Enum.GetValues(typeof(ProjectStatus)).Cast<ProjectStatus>().Select(e => e.GetDescription()).ToList()"
                                 AllowClear="true"
                                 @bind-Value="statusFilterValue"
-                                Change="@(args => OnValueChange(args))"/>
+                                Change="@(args => OnValueChange(args))" />
     </RadzenFormField>
-    
+
     <RadzenFormField Variant="Variant.Outlined">
         <RadzenDropDownDataGrid TValue="string"
                                 Multiple="false"
@@ -44,21 +46,21 @@
                                 AllowClear="true"
                                 ValueProperty="Name"
                                 @bind-Value="programmingLanguageFilterValue"
-                                Change="OnValueChange"/>
+                                Change="OnValueChange" />
     </RadzenFormField>
-    <br/>
-    <br/>
+    <br />
+    <br />
     <RadzenText TextStyle="TextStyle.Subtitle2"
                 TagName="TagName.H3"
-                Text="Filtere nach exaktem Datum oder Zeitspanne: "/>
+                Text="Filtere nach exaktem Datum oder Zeitspanne: " />
 
-    <RadzenSelectBar @bind-Value="@selectBarValue" 
-                     Change="() => SelectBarChange()" 
-                     TValue="bool" 
+    <RadzenSelectBar @bind-Value="@selectBarValue"
+                     Change="() => SelectBarChange()"
+                     TValue="bool"
                      class="mb-5">
         <Items>
-            <RadzenSelectBarItem Text="Datum" Value="true"/>
-            <RadzenSelectBarItem Text="Zeitspanne" Value="false"/>
+            <RadzenSelectBarItem Text="Datum" Value="true" />
+            <RadzenSelectBarItem Text="Zeitspanne" Value="false" />
         </Items>
     </RadzenSelectBar>
     <RadzenDatePicker @bind-Value="@specificDateFilterValue"
@@ -82,8 +84,8 @@
                       Visible="filterByRange"
                       TValue="DateTime?">
     </RadzenDatePicker>
-    <br/>
-    <br/>
+    <br />
+    <br />
     <RadzenButton ButtonStyle="ButtonStyle.Primary"
                   Click="OnFilter"
                   Text="Filter anwenden">

@@ -77,6 +77,48 @@ public class ProjectServiceTests
         };
     }
 
+    private static ProjectUpdateDto GetProjectUpdateDto()
+    {
+        return new ProjectUpdateDto { Id = 1, Status = "New" };
+    }
+
+    [Test]
+    public async Task Update_WhenProjectDoesNotExist_ReturnsNull()
+    {
+        // Arrange
+        ProjectUpdateDto updateDto = GetProjectUpdateDto();
+        this.projectRepository.GetByIdAsync(updateDto.Id).Returns(Task.FromResult<Project?>(null));
+
+        // Act
+        ProjectDto? result = await this.service.Update(updateDto);
+
+        // Assert
+        result.Should().BeNull();
+        await this.projectRepository.DidNotReceive().UpdateAsync(Arg.Any<Project>());
+        this.projectMapper.DidNotReceive().Map(Arg.Any<Project>(), Arg.Any<ProjectUpdateDto>());
+    }
+
+    [Test]
+    public async Task Update_WhenProjectExists_UpdatesAndReturnsUpdatedProject()
+    {
+        // Arrange
+        ProjectUpdateDto updateDto = GetProjectUpdateDto();
+        Project project = GetTestProject();
+        ProjectDto projectDto = GetTestProjectDto();
+
+        this.projectRepository.GetByIdAsync(updateDto.Id).Returns(project);
+        this.projectDtoMapper.Map(project).Returns(projectDto);
+
+        // Act
+        ProjectDto? result = await this.service.Update(updateDto);
+
+        // Assert
+        result.Should().BeEquivalentTo(projectDto);
+        await this.projectRepository.Received(1).UpdateAsync(project);
+        this.projectMapper.Received(1).Map(project, updateDto);
+    }
+
+
     [Test]
     public async Task GetAllProjectsAsync_WhenNoProjectsExist_ReturnsEmptyList()
     {

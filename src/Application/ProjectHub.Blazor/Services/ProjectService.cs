@@ -7,14 +7,22 @@ using ProjectHub.Blazor.Services.Contracts;
 
 public class ProjectService : BaseHttpService, IProjectService
 {
+    private readonly IProjectUpdateDtoMapper projectUpdateDtoMapper;
     private IProjectViewModelMapper ProjectViewModelMapper { get; }
     private IProjectDetailsViewModelMapper ProjectDetailsViewModelMapper { get; }
+    
 
-    public ProjectService(IProjectHubApiClient apiClient, IProjectViewModelMapper projectViewModelMapper, IProjectDetailsViewModelMapper projectDetailsViewModelMapper)
+    public ProjectService(
+        IProjectHubApiClient apiClient, 
+        IProjectViewModelMapper projectViewModelMapper, 
+        IProjectDetailsViewModelMapper projectDetailsViewModelMapper, 
+        IProjectUpdateDtoMapper projectUpdateDtoMapper
+        )
         : base(apiClient)
     {
         this.ProjectViewModelMapper = projectViewModelMapper;
         this.ProjectDetailsViewModelMapper = projectDetailsViewModelMapper;
+        this.projectUpdateDtoMapper = projectUpdateDtoMapper;
         this.apiClient = apiClient;
     }
 
@@ -75,6 +83,28 @@ public class ProjectService : BaseHttpService, IProjectService
         {
             response = this.GetApiExceptionResponse<ProjectDetailsViewModel>(e);
         }
+        return response;
+    }
+
+    public async Task<Response<ProjectUpdateDto>> Update(ProjectUpdateModel updateModel)
+    {
+        Response<ProjectUpdateDto> response;
+
+        ProjectUpdateDto projectUpdateDto = this.projectUpdateDtoMapper.Map(updateModel);
+        try
+        {
+            await this.apiClient.ApiProjectsPutAsync(projectUpdateDto);
+            response = new Response<ProjectUpdateDto>()
+            {
+                Success = true,
+            };
+
+        }
+        catch (ApiException<ProblemDetails> e)
+        {
+            response = this.GetApiExceptionResponse<ProjectUpdateDto>(e);
+        }
+
         return response;
     }
 }

@@ -1,20 +1,35 @@
-﻿using Radzen;
-
-namespace ProjectHub.Blazor.Models;
-
-public abstract class ProjectDetailsDialogOptions
+﻿namespace ProjectHub.Blazor.Models
 {
-    public static DialogOptions GetDefault()
+    using Radzen;
+
+    public static class ProjectDetailsDialogOptions
     {
-        return new DialogOptions
+        public static DialogOptions GetDefault()
         {
-            Width = "700px",
-            Height = "512px",
-            Resizable = true,
-            Draggable = true,
-            CloseDialogOnEsc = true,
-            ShowClose = true,
-            ShowTitle = true,
-        };
+            return new DialogOptions
+            {
+                Width = "800px",
+                Height = "680px",
+                Resizable = true,
+                Draggable = false,
+                CloseDialogOnEsc = false,
+                ShowClose = true,
+                ShowTitle = true,
+                CssClass = "default-dialog-position"
+            };
+        }
+
+        public static DialogOptions GetEdit()
+        {
+            return new DialogOptions
+            {
+                Width = "460px",
+                Height = "auto",
+                CloseDialogOnEsc = false,
+                Draggable = false,
+                CssClass = "edit-dialog-position"
+            };
+        }
     }
 }
+

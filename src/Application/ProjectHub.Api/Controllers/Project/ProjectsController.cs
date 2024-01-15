@@ -1,6 +1,7 @@
 namespace ProjectHub.Api.Controllers.Project;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProjectHub.Abstractions.DTOs.Project;
 using ProjectHub.Abstractions.IService.Project;
 
@@ -12,7 +13,10 @@ public class ProjectsController : ControllerBase
 {
     private readonly IProjectService projectService;
 
-    public ProjectsController(IProjectService projectService) { this.projectService = projectService; }
+    public ProjectsController(IProjectService projectService)
+    {
+        this.projectService = projectService;
+    }
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
@@ -44,5 +48,19 @@ public class ProjectsController : ControllerBase
         }
 
         return this.Ok(dto);
+    }
+
+    [HttpPut]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<ProjectDto>> Update(ProjectUpdateDto projectUpdateDto)
+    {
+        ProjectDto? projectDto = await this.projectService.Update(projectUpdateDto);
+        if (projectDto == null)
+        {
+            return this.NotFound();
+        }
+        return this.Ok(projectDto);
     }
 }

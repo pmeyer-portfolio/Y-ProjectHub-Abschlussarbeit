@@ -1,19 +1,21 @@
 ﻿@using ProjectHub.Blazor.Services.Contracts
 @using ProjectHub.Blazor.Constants
+﻿@using ProjectHub.Blazor.Services.Contracts
+
 @attribute [Route(ProjectHubRoute.Projects)]
 @inject IProjectService ProjectService
 
 <h3>Auflistung Projekte</h3>
 
-@if (this.response.Success == false)
+@if (response.Success == false)
 {
     <div class="alert alert-danger">
-        <h4>@(this.response.ValidationErrors)</h4>
+        <h4>@response.ValidationErrors</h4>
     </div>
 }
 else
 {
-    @if (this.response.Data == null)
+    @if (response.Data == null)
     {
         <div class="alert alert-info">
             <h4>Loading Data...</h4>
@@ -22,6 +24,6 @@ else
     else
     {
         <br/>
-        <Table Projects="this.response.Data.ToList()"></Table>
+        <Table Projects="response.Data.ToList()"></Table>
     }
 }

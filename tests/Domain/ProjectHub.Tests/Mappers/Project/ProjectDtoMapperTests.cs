@@ -197,6 +197,7 @@ public class ProjectDtoMapperTests
         {
             Title = "Test Title",
             Description = "Test Description",
+            Status = "Status",
             User = new User
             {
                 FirstName = "Test FirstName",
@@ -207,8 +208,8 @@ public class ProjectDtoMapperTests
         ProjectDto expectedProjectDto = new()
         {
             Title = project.Title,
-            Status = "New",
             Description = project.Description,
+            Status = project.Status,
             UserDto = new UserDto
             {
                 FirstName = project.User.FirstName,

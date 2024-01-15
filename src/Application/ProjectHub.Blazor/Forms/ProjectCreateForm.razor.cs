@@ -3,9 +3,15 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using ProjectHub.Blazor.Services.Base;
+using Radzen;
 
 public partial class ProjectCreateForm
 {
+    private void OnChange(string input)
+    {
+        this.ProjectCreateDto.Description = input;
+    }
+
     [Parameter]
     public required ProjectCreateDto ProjectCreateDto { get; set; }
 
@@ -20,9 +26,5 @@ public partial class ProjectCreateForm
     private void HandleLanguageSelected(IList<int> selectedIds)
     {
         this.ProjectCreateDto.Languages = selectedIds;
-    }
-    private void OnChange(string input)
-    {
-        this.ProjectCreateDto.Description = input;
     }
 }

@@ -27,13 +27,19 @@ public abstract class GenericRepository<T> : IGenericRepository<T> where T : cla
         return await this.context.Set<T>().ToListAsync();
     }
 
-    public bool Exists(T entity)
+    public  bool Exists(T entity)
     {
-        return this.context.Set<T>().Any(e => e == entity);
+        return  this.context.Set<T>().Any(e => e == entity);
     }
 
     public virtual async Task<T?> GetByIdAsync(int id)
     {
         return await this.context.Set<T>().FindAsync(id);
+    }
+
+    public async Task UpdateAsync(T entity)
+    {
+        this.context.Update(entity);
+        await context.SaveChangesAsync();
     }
 }

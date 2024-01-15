@@ -31,6 +31,9 @@ builder.Services.AddScoped<IProjectFilterService, ProjectFilterService>();
 builder.Services.AddScoped<IProjectViewModelMapper, ProjectViewModelMapper>();
 builder.Services.AddScoped<IDropDownDataGridInitializer, DropDownDataGridInitializer>();
 builder.Services.AddScoped<IProjectDetailsViewModelMapper, ProjectDetailsViewModelMapper>();
+builder.Services.AddScoped<IProjectUpdateDtoMapper, ProjectUpdateDtoMapper>();
+builder.Services.AddScoped<IProjectUpdateService, ProjectUpdateService>();
+builder.Services.AddScoped<IProjectDetailsService, ProjectDetailsService>();
 builder.Services.AddRadzenComponents();
 builder.Services.AddMsalAuthentication(options =>
 {

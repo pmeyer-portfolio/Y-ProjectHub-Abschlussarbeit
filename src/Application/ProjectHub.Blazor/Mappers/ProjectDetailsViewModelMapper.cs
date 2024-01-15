@@ -1,5 +1,6 @@
 ﻿namespace ProjectHub.Blazor.Mappers;
 
+using Microsoft.AspNetCore.Components;
 using ProjectHub.Blazor.Constants;
 using ProjectHub.Blazor.Models;
 using ProjectHub.Blazor.Services.Base;
@@ -12,7 +13,7 @@ public class ProjectDetailsViewModelMapper : IProjectDetailsViewModelMapper
         {
             Id = projectDto.Id,
             Title = projectDto.Title,
-            Description = projectDto.Description,
+            Description = new MarkupString(projectDto.Description),
             CreatedAt = projectDto.CreatedAt,
             CreatedBy = projectDto.UserDto.FirstName + " " + projectDto.UserDto.LastName,
             Status = projectDto.Status,

@@ -44,7 +44,7 @@ public partial class Create
                 {
                     Severity = NotificationSeverity.Success,
                     Summary = "Erfolgreich erstellt",
-                    Detail = NotificationMessages.SuccessCreated,
+                    Detail = NotificationDetails.CreateSuccess,
                     Duration = Duration
                 });
                 break;

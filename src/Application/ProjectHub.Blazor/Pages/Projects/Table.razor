@@ -1,54 +1,71 @@
-﻿@using ProjectHub.Blazor.Shared
+﻿﻿@using ProjectHub.Blazor.Shared
 @using ProjectHub.Blazor.Models
 @using ProjectHub.Blazor.Constants
 
-<Filter Projects="Projects" OnFilterChanged="OnProjectsFiltered"></Filter>
-<br/>
-
+<RadzenRow JustifyContent="JustifyContent.Left">
+    <Filter Projects="Projects" OnFilterChanged="OnProjectsFiltered"></Filter>
+</RadzenRow>
+<br />
 <RadzenDataGrid @ref="dataGrid"
                 TItem="ProjectViewModel"
                 Data="filteredProjects"
                 AllowPaging="true"
                 PageSize="10"
                 AllowSorting="true"
-                ColumnWidth="300px"
                 AllowColumnResize="true">
     <Columns>
-        <RadzenDataGridColumn TItem="ProjectViewModel" Property="Id" Title="ID" Sortable="false" Frozen="true" MinWidth="80px" Width="80px" TextAlign="TextAlign.Center"/>
-        <RadzenDataGridColumn TItem="ProjectViewModel" Property="Title" Title="Titel" Frozen="true" Width="150px" MinWidth="150px" TextAlign="TextAlign.Left"/>
-        <RadzenDataGridColumn TItem="ProjectViewModel" Property="Status" Title="Projektstatus" MinWidth="100px" Width="120px"/>
-        <RadzenDataGridColumn TItem="ProjectViewModel" Property="CreatedAt" Title="Einstelldatum" FormatString="{0:dd.MM.yyyy}" MinWidth="100px" Width="120px"/>
-        <RadzenDataGridColumn TItem="ProjectViewModel" Property="CreatedBy" Title="Ersteller:in" MinWidth="170px" Width="170px"/>
-        <RadzenDataGridColumn TItem="ProjectViewModel" Property="TribeName" Title="Tribe" MinWidth="150px" Width="150px"/>
+        <RadzenDataGridColumn TItem="ProjectViewModel" Resizable="false" Property="Id" Title="ID" Sortable="false" Frozen="true" MinWidth="80px" Width="80px" TextAlign="TextAlign.Center" />
+        <RadzenDataGridColumn TItem="ProjectViewModel" Resizable="false" Property="Title" Title="Titel" Frozen="true" Width="150px" MinWidth="150px" TextAlign="TextAlign.Left" />
+        <RadzenDataGridColumn TItem="ProjectViewModel" Resizable="false" Property="Status" Title="Projektstatus" MinWidth="100px" Width="120px" />
+        <RadzenDataGridColumn TItem="ProjectViewModel" Resizable="false" Property="CreatedAt" Title="Einstelldatum" FormatString="{0:dd.MM.yyyy}" MinWidth="100px" Width="120px" />
+        <RadzenDataGridColumn TItem="ProjectViewModel" Resizable="false" Property="CreatedBy" Title="Ersteller:in" MinWidth="170px" Width="170px" />
+        <RadzenDataGridColumn TItem="ProjectViewModel" Resizable="false" Property="TribeName" Title="Tribe" MinWidth="150px" Width="150px" />
 
         <RadzenDataGridColumn TItem="ProjectViewModel"
                               Title="Programmiersprache/n"
                               Property="ProgrammingLanguages"
                               Sortable="false"
-                              Filterable="true">
+                              Filterable="true"
+                              MinWidth="170px"
+                              Width="200px">
             <Template Context="projectViewModel">
                 @foreach (string programmingLanguage in projectViewModel.ProgrammingLanguages)
                 {
                     @string.Join(",", programmingLanguage)
-                    <br/>
+                    <br />
                 }
             </Template>
         </RadzenDataGridColumn>
-        <RadzenDataGridColumn TItem="ProjectViewModel"
-                              Title="Aktion"
-                              Sortable="false"
+        <RadzenDataGridColumn TItem="ProjectViewModel" Context="projectViewModel"
                               Filterable="false"
-                              MinWidth="120px"
-                              Width="120px"
-                              TextAlign="TextAlign.Center">
+                              Sortable="false"
+                              TextAlign="TextAlign.Right"
+                              Frozen="true"
+                              Width="50px"
+                              FrozenPosition="FrozenColumnPosition.Right">
+
             <Template Context="projectViewModel">
                 <RadzenButton IconColor="white"
+                              ButtonStyle="ButtonStyle.Primary"
+                              Size="ButtonSize.Medium"
                               Icon="info_outline"
-                              Style="width: 50px"
-                              Click="@(() => OpenDetailsView(projectViewModel.Id))"
-                              ButtonType="ButtonType.Button">
+                              Click="@(() => OpenDetailsView(projectViewModel.Id))">
                 </RadzenButton>
             </Template>
         </RadzenDataGridColumn>
     </Columns>
 </RadzenDataGrid>
+
+<style>
+    .default-dialog-position {
+        position: fixed;
+        top: 50%;
+        left: 30%;
+        transform: translate(-50%, -50%);
+        width: 80%;
+        max-width: 800px;
+        height: 80%;
+        max-height: 680px;
+        z-index: 1040;
+    }
+</style>

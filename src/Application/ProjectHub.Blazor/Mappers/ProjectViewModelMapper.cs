@@ -15,7 +15,6 @@ public class ProjectViewModelMapper : IProjectViewModelMapper
             Status = projectDto.Status,
             CreatedAt = projectDto.CreatedAt.Date,
             CreatedBy = projectDto.UserDto.FirstName + " " + projectDto.UserDto.LastName,
-            Description = projectDto.Description
         };
 
         if (projectDto.TribeDto != null)
