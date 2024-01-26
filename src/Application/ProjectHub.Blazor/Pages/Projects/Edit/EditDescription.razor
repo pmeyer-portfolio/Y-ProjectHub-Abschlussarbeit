@@ -1,0 +1,41 @@
+﻿@attribute [Route(ProjectHubRoute.EditDescription)]
+@using ProjectHub.Blazor.Constants
+@inherits BaseEdit
+
+<RadzenStack>
+    <RadzenText TextStyle="TextStyle.Overline"
+                Class="rz-mt-2 rz-my-0"
+                Style="color: var(--rz-text-tertiary-color);"
+                Text="Neue Beschreibung eingeben"/>
+    <RadzenHtmlEditor style="height: 350px; width: auto"
+                      Input="HandleInput"
+                      Value="@ProjectDetailsViewModel.Description.Value">
+        <RadzenHtmlEditorFontSize/>
+        <RadzenHtmlEditorUndo/>
+        <RadzenHtmlEditorRedo/>
+        <RadzenHtmlEditorSeparator/>
+        <RadzenHtmlEditorBold/>
+        <RadzenHtmlEditorItalic/>
+        <RadzenHtmlEditorUnderline/>
+        <RadzenHtmlEditorSeparator/>
+        <RadzenHtmlEditorRemoveFormat/>
+        <RadzenHtmlEditorAlignCenter/>
+        <RadzenHtmlEditorAlignLeft/>
+        <RadzenHtmlEditorAlignRight/>
+        <RadzenHtmlEditorUnorderedList/>
+        <RadzenHtmlEditorOrderedList/>
+    </RadzenHtmlEditor>
+    <RadzenButton ButtonType="ButtonType.Submit"
+                  ButtonStyle="ButtonStyle.Primary"
+                  Click="OnOkClick"
+                  Text="Ok"/>
+</RadzenStack>
+
+<style>
+    .edit-description-dialog-position {
+        position: fixed;
+        top: 20%;
+        left: 50%;
+        z-index: 1050;
+    }
+</style>

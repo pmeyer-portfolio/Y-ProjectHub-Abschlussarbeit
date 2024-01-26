@@ -1,11 +1,13 @@
-﻿﻿namespace ProjectHub.Blazor.Pages.Projects;
+﻿namespace ProjectHub.Blazor.Pages.Projects;
 
 using Microsoft.AspNetCore.Components;
 using ProjectHub.Blazor.Constants;
 using ProjectHub.Blazor.Initializer;
-using ProjectHub.Blazor.Models;
+using ProjectHub.Blazor.Models.ProgrammingLanguage;
+using ProjectHub.Blazor.Models.Project;
+using ProjectHub.Blazor.Models.Tribe;
 using ProjectHub.Blazor.Services.Base;
-using ProjectHub.Blazor.Services.Contracts;
+using ProjectHub.Blazor.Services.Project.Interfaces;
 
 public partial class Filter
 {
@@ -14,7 +16,7 @@ public partial class Filter
     private bool selectBarValue = false, filterByRange = true;
 
     [Inject] 
-    public IDropDownDataGridInitializer DropDownDataGridInitializer { get; set; } = null!;
+    public IProjectHubDataInitializer ProjectHubDataInitializer { get; set; } = null!;
     [Inject] 
     public IProjectFilterService ProjectFilterService { get; set; } = null!;
     [Parameter] 
@@ -23,14 +25,16 @@ public partial class Filter
     public IList<ProjectViewModel> Projects { get; set; } = new List<ProjectViewModel>();
 
     public EventCallback<string> OnSelected { get; set; }
-    private IList<TribeDto>? Tribes { get; set; }
-    private IList<ProgrammingLanguageDto>? ProgrammingLanguages { get; set; }
+    private IList<TribeViewModel>? Tribes { get; set; }
+    private IList<ProgrammingLanguageViewModel>? ProgrammingLanguages { get; set; }
+    private IList<ProjectStatusViewModel>? ProjectStatusViewModels{ get; set; }
     private IList<ProjectViewModel> FilteredProjects { get; set; } = new List<ProjectViewModel>();
-     
+
     protected override async Task OnInitializedAsync()
     {
-        this.Tribes = await this.DropDownDataGridInitializer.InitializeTribes();
-        this.ProgrammingLanguages = await this.DropDownDataGridInitializer.InitializeProgrammingLanguages();
+        this.Tribes = await this.ProjectHubDataInitializer.InitializeTribes();
+        this.ProgrammingLanguages = await this.ProjectHubDataInitializer.InitializeProgrammingLanguages();
+        this.ProjectStatusViewModels = await this.ProjectHubDataInitializer.InitializeStatus();
     }
     private void SelectBarChange()
     {

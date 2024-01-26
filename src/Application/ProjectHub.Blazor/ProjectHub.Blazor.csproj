@@ -56,4 +56,8 @@
     <UpToDateCheckInput Remove="Pages\Projects\Filter.razor" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\Tribe\" />
+  </ItemGroup>
+
 </Project>

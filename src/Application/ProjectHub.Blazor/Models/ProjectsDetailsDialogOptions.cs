@@ -19,7 +19,7 @@
             };
         }
 
-        public static DialogOptions GetEdit()
+        public static DialogOptions GetTribeOptions()
         {
             return new DialogOptions
             {
@@ -27,9 +27,58 @@
                 Height = "auto",
                 CloseDialogOnEsc = false,
                 Draggable = false,
-                CssClass = "edit-dialog-position"
+                CssClass = "edit-tribe-dialog-position"
+            };
+        }
+
+        public static DialogOptions GetProgrammingLanguagesOptions()
+        {
+            return new DialogOptions
+            {
+                Width = "460px",
+                Height = "auto",
+                CloseDialogOnEsc = false,
+                Draggable = false,
+                CssClass = "edit-programmingLanguages-dialog-position"
+            };
+        }
+
+        public static DialogOptions GetStatusOptions()
+        {
+            return new DialogOptions
+            {
+                Width = "460px",
+                Height = "auto",
+                CloseDialogOnEsc = false,
+                Draggable = false,
+                CssClass = "edit-status-dialog-position"
+            };
+        }
+
+        public static DialogOptions GetTitleOptions()
+        {
+            return new DialogOptions
+            {
+                Width = "460px",
+                Height = "auto",
+                CloseDialogOnEsc = false,
+                Draggable = false,
+                CssClass = "edit-title-dialog-position"
+            };
+        }
+
+        public static DialogOptions GetDescriptionOptions()
+        {
+            return new DialogOptions
+            {
+                
+                Width = "700px",
+                Height = "auto",
+                Resizable = true,
+                CloseDialogOnEsc = false,
+                Draggable = true,
+                CssClass = "edit-description-dialog-position"
             };
         }
     }
 }
-

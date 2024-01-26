@@ -3,22 +3,24 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using ProjectHub.Blazor.Constants;
+using ProjectHub.Blazor.Initializer;
 using ProjectHub.Blazor.Models;
+using ProjectHub.Blazor.Models.Project;
 using ProjectHub.Blazor.Services.Base;
-using ProjectHub.Blazor.Services.Contracts;
+using ProjectHub.Blazor.Services.Project.Interfaces;
 using Radzen;
 
 public partial class Details
 {
-    private string? updatedPropertyValue;
+    private ProjectUpdateModel ProjectUpdateModel { get; set; } = null!;
 
-    private ProjectDetailsViewModel? ProjectDetailsViewModel { get; set; } = new();
+    private ProjectDetailsViewModel ProjectDetailsViewModel { get; set; } = null!;
 
     [Parameter]
     public int ProjectId { get; set; }
 
     [Inject]
-    private IProjectDetailsService ProjectDetailsService { get; set; } = null!;
+    private IProjectService ProjectService { get; set; } = null!;
 
     [Inject]
     private IProjectUpdateService ProjectUpdateService { get; set; } = null!;
@@ -26,31 +28,31 @@ public partial class Details
     [Inject]
     private DialogService DialogService { get; set; } = null!;
 
+    [Inject]
+    private IEditDialogInitializer EditDialogInitializer { get; set; } = null!;
+
     protected override async Task OnInitializedAsync()
     {
-        this.ProjectDetailsViewModel = await this.ProjectDetailsService.LoadProjectDetails(this.ProjectId);
+        this.ProjectDetailsViewModel = await this.ProjectService.LoadProjectDetails(this.ProjectId);
+        this.ProjectUpdateModel = this.CreateProjectUpdateModelFromDetails(this.ProjectDetailsViewModel);
+
+        this.EditDialogInitializer.SetProjectDetailsViewModel(this.ProjectDetailsViewModel);
+        this.EditDialogInitializer.SetProjectUpdateModel(this.ProjectUpdateModel);
     }
 
-    private async Task OpenEditDialog(string property, string value)
+    private async Task OpenEditDialog(string propertyName)
     {
-        string? result = await this.DialogService.OpenAsync<Edit>($"{property} bearbeiten",
-            new Dictionary<string, object> { { nameof(Edit.Value), value } },
-            ProjectDetailsDialogOptions.GetEdit());
-
-        if (result != null)
-        {
-            this.updatedPropertyValue = result;
-
-            this.ProjectDetailsViewModel?.UpdateProperty(property, this.updatedPropertyValue);
-        }
+        await this.EditDialogInitializer.OpenEditDialogAsync(propertyName);
     }
 
-    private async Task OnUpdate(MouseEventArgs obj)
+    private async Task OnUpdate()
     {
         Response<ProjectUpdateDto> result =
-            await this.ProjectUpdateService.UpdateProjectStatus(this.ProjectId, this.updatedPropertyValue);
+            await this.ProjectUpdateService.UpdateProject(this.ProjectUpdateModel);
+
         if (result.Success)
         {
+            this.ProjectUpdateModel = new ProjectUpdateModel();
             this.DialogService.Close();
         }
     }
@@ -73,5 +75,20 @@ public partial class Details
         {
             this.DialogService.Close();
         }
+    }
+
+    private ProjectUpdateModel CreateProjectUpdateModelFromDetails(ProjectDetailsViewModel detailsViewModel)
+    {
+        return new ProjectUpdateModel
+        {
+            projectHaveUpdates = false,
+            Id = this.ProjectId,
+            TribeId = detailsViewModel.TribeViewModel.Id,
+            ProgrammingLanguageIds = detailsViewModel.ProgrammingLanguageViewModels
+                .Select(model => model.Id).ToList(),
+            Status = detailsViewModel.Status,
+            Title = detailsViewModel.Title!,
+            Description = detailsViewModel.Description,
+        };
     }
 }

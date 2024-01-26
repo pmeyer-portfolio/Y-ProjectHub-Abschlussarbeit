@@ -2,10 +2,17 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using ProjectHub.Blazor;
 using ProjectHub.Blazor.Initializer;
-using ProjectHub.Blazor.Mappers;
+using ProjectHub.Blazor.Interfaces;
+using ProjectHub.Blazor.Mappers.ProgrammingLanguage;
+using ProjectHub.Blazor.Mappers.Project;
+using ProjectHub.Blazor.Mappers.Project.Interfaces;
+using ProjectHub.Blazor.Mappers.Tribe;
 using ProjectHub.Blazor.Services;
 using ProjectHub.Blazor.Services.Base;
-using ProjectHub.Blazor.Services.Contracts;
+using ProjectHub.Blazor.Services.ProgrammingLanguage;
+using ProjectHub.Blazor.Services.Project;
+using ProjectHub.Blazor.Services.Project.Interfaces;
+using ProjectHub.Blazor.Services.Tribe;
 using Radzen;
 
 WebAssemblyHostBuilder builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -23,17 +30,24 @@ builder.Services.AddScoped<IProjectHubApiClient, ProjectHubApiClient>(x =>
         return projectHubClient;
     }
 );
+builder.Services.AddScoped<IProjectDetailsViewModelMapper, ProjectDetailsViewModelMapper>();
+builder.Services.AddScoped<IProjectViewModelMapper, ProjectViewModelMapper>();
+builder.Services.AddScoped<IProjectUpdateDtoMapper, ProjectUpdateDtoMapper>();
+builder.Services.AddScoped<ITribeViewModelMapper, TribeViewModelMapper>();
+builder.Services.AddScoped<IProgrammingLanguageViewModelMapper, ProgrammingLanguageViewModelMapper>();
 
 builder.Services.AddScoped<ITribeService, TribeService>();
 builder.Services.AddScoped<IProgrammingLanguageService, ProgrammingLanguageService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<IProjectFilterService, ProjectFilterService>();
-builder.Services.AddScoped<IProjectViewModelMapper, ProjectViewModelMapper>();
-builder.Services.AddScoped<IDropDownDataGridInitializer, DropDownDataGridInitializer>();
-builder.Services.AddScoped<IProjectDetailsViewModelMapper, ProjectDetailsViewModelMapper>();
-builder.Services.AddScoped<IProjectUpdateDtoMapper, ProjectUpdateDtoMapper>();
 builder.Services.AddScoped<IProjectUpdateService, ProjectUpdateService>();
-builder.Services.AddScoped<IProjectDetailsService, ProjectDetailsService>();
+builder.Services.AddScoped<INotificationServiceWrapper, NotificationServiceWrapperWrapper>();
+
+builder.Services.AddScoped<IProjectHubDataInitializer, ProjectHubDataInitializer>();
+builder.Services.AddScoped<IEditDialogInitializer, EditDialogInitializer>();
+
+builder.Services.AddScoped<NotificationService>();
+
 builder.Services.AddRadzenComponents();
 builder.Services.AddMsalAuthentication(options =>
 {

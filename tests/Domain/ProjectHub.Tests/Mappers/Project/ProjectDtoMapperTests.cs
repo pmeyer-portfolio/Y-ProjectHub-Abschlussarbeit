@@ -251,7 +251,7 @@ public class ProjectDtoMapperTests
             User = null,
         };
 
-        ProjectDto expectedProjectDto = new ProjectDto()
+        ProjectDto expectedProjectDto = new()
         {
             Title = project.Title,
             Description = project.Description,

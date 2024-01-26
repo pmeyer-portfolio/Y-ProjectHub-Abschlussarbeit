@@ -1,0 +1,13 @@
+﻿@using ProjectHub.Blazor.Models.Project
+@using ProjectHub.Blazor.Models
+<RadzenDropDownDataGrid TValue="ProjectStatusViewModel"
+                        Placeholder="Wähle einen Status."
+                        FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                        AllowSorting="true"
+                        Data="@projectStatusViewModels"
+                        TextProperty="Name"
+                        AllowClear="true"
+                        Value="@CurrentValue"
+                        Change="OnValueChanged">
+
+</RadzenDropDownDataGrid>

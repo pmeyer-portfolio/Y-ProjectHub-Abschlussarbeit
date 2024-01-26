@@ -32,7 +32,7 @@ public class ProjectDtoMapper : IProjectDtoMapper
             Title = project.Title,
             ProgrammingLanguageDtos = languages,
             CreatedAt = project.Created.ToLocalTime(),
-            Status = project.Status
+            Status = project.Status,
         };
 
         if (project.User != null)

@@ -2,6 +2,7 @@
 
 using Microsoft.AspNetCore.Components;
 using ProjectHub.Blazor.Models;
+using ProjectHub.Blazor.Models.Project;
 using Radzen;
 using Radzen.Blazor;
 

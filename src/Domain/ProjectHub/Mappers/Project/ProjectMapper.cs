@@ -47,7 +47,34 @@ public class ProjectMapper : IProjectMapper
 
     public Project Map(Project project, ProjectUpdateDto projectUpdateDto)
     {
-        project.Status = projectUpdateDto.Status;
+        project.Id = projectUpdateDto.Id;
+        project.Title = projectUpdateDto.Title;
+        project.Description = projectUpdateDto.Description;
+        project.Status = projectUpdateDto.Status!;
+        
+        if (projectUpdateDto.TribeId <= TribeNoAssignment)
+        {
+            project.TribeId = null;
+        }
+        else
+        {
+            project.TribeId = projectUpdateDto.TribeId;
+        }
+
+        project.projectProgrammingLanguages.Clear();
+
+        foreach (int languageId in projectUpdateDto.ProgrammingLanguages)
+        {
+            if (languageId > LanguageNoAssignment)
+            {
+                project.projectProgrammingLanguages.Add(new ProjectProgrammingLanguages
+                {
+                    ProjectId = project.Id,
+                    ProgrammingLanguageId = languageId
+                });
+            }
+        }
+
         return project;
     }
 }

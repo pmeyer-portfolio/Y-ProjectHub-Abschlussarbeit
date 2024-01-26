@@ -1,30 +1,32 @@
 ﻿namespace ProjectHub.Blazor.Forms;
 
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Authorization;
+using ProjectHub.Blazor.Models.ProgrammingLanguage;
+using ProjectHub.Blazor.Models.Tribe;
 using ProjectHub.Blazor.Services.Base;
-using Radzen;
 
 public partial class ProjectCreateForm
 {
-    private void OnChange(string input)
+    [Parameter]
+    public required ProjectCreateDto ProjectCreateDto { get; set; }
+
+    private void OnDescriptionChange(string input)
     {
         this.ProjectCreateDto.Description = input;
     }
 
-    [Parameter]
-    public required ProjectCreateDto ProjectCreateDto { get; set; }
-
-    [Inject]
-    private AuthenticationStateProvider AuthenticationStateProvider { get; set; } = null!;
-
-    private void HandleTribeSelected(int selectedId)
+    private void OnTribeChange(TribeViewModel tribeViewModel)
     {
-        this.ProjectCreateDto.TribeId = selectedId;
+        this.ProjectCreateDto.TribeId = tribeViewModel.Id;
     }
 
-    private void HandleLanguageSelected(IList<int> selectedIds)
+    private void OnProgrammingLanguageChange(IList<ProgrammingLanguageViewModel> programmingLanguageViewModels)
     {
-        this.ProjectCreateDto.Languages = selectedIds;
+        this.ProjectCreateDto.Languages = programmingLanguageViewModels.Select(model => model.Id).ToList();
+    }
+
+    private void OnTitleChange(string input)
+    {
+        this.ProjectCreateDto.Title = input;
     }
 }

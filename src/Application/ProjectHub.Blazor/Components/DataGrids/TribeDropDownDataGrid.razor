@@ -1,11 +1,10 @@
-﻿<RadzenFormField Variant="Variant.Outlined">
-    <RadzenDropDownDataGrid TValue="object"
-                            Placeholder="Wähle keinen oder einen Tribe."
-                            FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
-                            AllowSorting="true"
-                            Data="Tribes"
-                            TextProperty="Name"
-                            AllowClear="true"
-                            Change="OnValueChanged"
-                            ValueProperty="Name"/>
-</RadzenFormField>
+﻿@using ProjectHub.Blazor.Models.Tribe
+<RadzenDropDownDataGrid TValue="string"
+                        Placeholder="Wähle keinen oder einen Tribe."
+                        FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                        AllowSorting="true"
+                        Data="@Tribes"
+                        TextProperty="Name"
+                        AllowClear="true"
+                        Value="@CurrentValue"
+                        Change="OnValueChanged"/>

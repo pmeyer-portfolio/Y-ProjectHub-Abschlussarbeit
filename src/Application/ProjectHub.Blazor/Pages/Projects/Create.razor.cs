@@ -4,9 +4,10 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using ProjectHub.Blazor.Constants;
+using ProjectHub.Blazor.Interfaces;
 using ProjectHub.Blazor.Models;
 using ProjectHub.Blazor.Services.Base;
-using ProjectHub.Blazor.Services.Contracts;
+using ProjectHub.Blazor.Services.Project.Interfaces;
 using Radzen;
 
 public partial class Create
@@ -17,7 +18,7 @@ public partial class Create
     public required IProjectService Service { get; set; }
 
     [Inject]
-    public required NotificationService NotificationService { get; set; }
+    public required INotificationServiceWrapper NotificationServiceWrapper { get; set; }
 
     [Inject]
     public required AuthenticationStateProvider AuthenticationStateProvider { get; set; }
@@ -32,7 +33,7 @@ public partial class Create
 
     private async Task Submit()
     {
-        this.projectCreateDto.Created = DateTimeOffset.UtcNow;
+        this.projectCreateDto.Created = DateTime.UtcNow;
         await this.SetLoggedInUserAsProjectCreator();
 
         Response<int> response = await this.Service.Create(this.projectCreateDto);
@@ -63,9 +64,11 @@ public partial class Create
     private async Task SetLoggedInUserAsProjectCreator()
     {
         AuthenticationState authState = await this.AuthenticationStateProvider.GetAuthenticationStateAsync();
+
         ClaimsPrincipal user = authState.User;
 
         UserCreateDto userCreateDto = new();
+
 
         if (user.Identity is not null && user.Identity.IsAuthenticated)
         {
@@ -79,6 +82,6 @@ public partial class Create
 
     private void ShowNotification(NotificationMessage message)
     {
-        this.NotificationService.Notify(message);
+        this.NotificationServiceWrapper.Notify(message);
     }
 }

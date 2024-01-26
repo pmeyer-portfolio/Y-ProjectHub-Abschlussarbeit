@@ -2,28 +2,31 @@
 
 using Microsoft.AspNetCore.Components;
 using ProjectHub.Blazor.Initializer;
-using ProjectHub.Blazor.Services.Base;
+using ProjectHub.Blazor.Models.Tribe;
 
 public partial class TribeDropDownDataGrid
 {
     [Parameter]
-    public EventCallback<int> OnTribeIdSelected { get; set; }
+    public string? CurrentValue { get; set; }
+
+    [Parameter]
+    public EventCallback<TribeViewModel> OnTribeSelected { get; set; }
 
     [Inject]
-    public IDropDownDataGridInitializer DropDownDataGridInitializer { get; set; } = null!;
+    public required IProjectHubDataInitializer ProjectHubDataInitializer { get; set; }
 
-    public IList<TribeDto>? Tribes { get; set; }
+    private IList<TribeViewModel>? Tribes { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        this.Tribes = await this.DropDownDataGridInitializer.InitializeTribes();
+        this.Tribes = await this.ProjectHubDataInitializer.InitializeTribes();
     }
 
     private void OnValueChanged(object value)
     {
-        if (value is int intValue)
+        if (value is TribeViewModel tribeViewModel)
         {
-            this.OnTribeIdSelected.InvokeAsync(intValue);
+            this.OnTribeSelected.InvokeAsync(tribeViewModel);
         }
     }
 }
