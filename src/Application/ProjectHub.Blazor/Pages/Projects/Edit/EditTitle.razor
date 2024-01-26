@@ -1,0 +1,46 @@
+﻿@using ProjectHub.Blazor.Constants
+@attribute [Route(ProjectHubRoute.EditTitle)]
+@inherits BaseEdit
+
+<RadzenStack>
+    <RadzenText TextStyle="TextStyle.Overline"
+                Class="rz-mt-2 rz-my-0"
+                Style="color: var(--rz-text-tertiary-color);"
+                Text="Neuen Titel eingeben"/>
+    <RadzenTextBox @bind-Value="DeprecatedTitle"
+                   Change="OnTitleChange">
+    </RadzenTextBox>
+    <RadzenColumn>
+        <RadzenText TextStyle="TextStyle.Overline"
+                    Class="rz-mt-2 rz-my-0"
+                    Style="color: var(--rz-text-tertiary-color);"
+                    Text="Aktueller Titel"/>
+        <RadzenText TextStyle="TextStyle.Body1"
+                    Class="rz-text-truncate">
+            @DeprecatedTitle
+        </RadzenText>
+
+        <RadzenText TextStyle="TextStyle.Overline"
+                    Class="rz-mt-2 rz-my-0"
+                    Style="color: var(--rz-text-tertiary-color);"
+                    Text="Aktualisierter Titel"/>
+        <RadzenText TextStyle="TextStyle.Body1"
+                    Class="rz-text-truncate">
+            @UpdatedTitle
+        </RadzenText>
+    </RadzenColumn>
+
+    <RadzenButton ButtonType="ButtonType.Submit"
+                  ButtonStyle="ButtonStyle.Primary"
+                  Click="OnOkClick"
+                  Text="Ok"/>
+</RadzenStack>
+
+<style>
+    .edit-title-dialog-position {
+        position: fixed;
+        top: 20%;
+        left: 60%;
+        z-index: 1050;
+    }
+</style>

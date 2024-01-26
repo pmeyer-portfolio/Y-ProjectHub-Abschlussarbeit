@@ -1,11 +1,10 @@
-﻿﻿@using ProjectHub.Blazor.Shared
-@using ProjectHub.Blazor.Models
-@using ProjectHub.Blazor.Constants
+﻿@using ProjectHub.Blazor.Models.Project
+﻿@using ProjectHub.Blazor.Shared
 
 <RadzenRow JustifyContent="JustifyContent.Left">
     <Filter Projects="Projects" OnFilterChanged="OnProjectsFiltered"></Filter>
 </RadzenRow>
-<br />
+<br/>
 <RadzenDataGrid @ref="dataGrid"
                 TItem="ProjectViewModel"
                 Data="filteredProjects"
@@ -14,28 +13,42 @@
                 AllowSorting="true"
                 AllowColumnResize="true">
     <Columns>
-        <RadzenDataGridColumn TItem="ProjectViewModel" Resizable="false" Property="Id" Title="ID" Sortable="false" Frozen="true" MinWidth="80px" Width="80px" TextAlign="TextAlign.Center" />
-        <RadzenDataGridColumn TItem="ProjectViewModel" Resizable="false" Property="Title" Title="Titel" Frozen="true" Width="150px" MinWidth="150px" TextAlign="TextAlign.Left" />
-        <RadzenDataGridColumn TItem="ProjectViewModel" Resizable="false" Property="Status" Title="Projektstatus" MinWidth="100px" Width="120px" />
-        <RadzenDataGridColumn TItem="ProjectViewModel" Resizable="false" Property="CreatedAt" Title="Einstelldatum" FormatString="{0:dd.MM.yyyy}" MinWidth="100px" Width="120px" />
-        <RadzenDataGridColumn TItem="ProjectViewModel" Resizable="false" Property="CreatedBy" Title="Ersteller:in" MinWidth="170px" Width="170px" />
-        <RadzenDataGridColumn TItem="ProjectViewModel" Resizable="false" Property="TribeName" Title="Tribe" MinWidth="150px" Width="150px" />
+        <RadzenDataGridColumn TItem="ProjectViewModel" Resizable="false" Property="Id" Title="ID" Sortable="false" Frozen="true" MinWidth="80px" Width="80px" TextAlign="TextAlign.Center"/>
+        <RadzenDataGridColumn TItem="ProjectViewModel" Resizable="false" Property="Title" Title="Titel" Frozen="true" Width="150px" MinWidth="150px" TextAlign="TextAlign.Left"/>
+        <RadzenDataGridColumn TItem="ProjectViewModel" Resizable="false" Property="Status" Title="Projektstatus" MinWidth="100px" Width="120px"/>
+        <RadzenDataGridColumn TItem="ProjectViewModel" Resizable="false" Property="CreatedAt" Title="Einstelldatum" FormatString="{0:dd.MM.yyyy}" MinWidth="100px" Width="120px"/>
+        <RadzenDataGridColumn TItem="ProjectViewModel" Resizable="false" Property="CreatedBy" Title="Ersteller:in" MinWidth="170px" Width="170px"/>
+
+        <RadzenDataGridColumn TItem="ProjectViewModel"
+                              Resizable="false"
+                              Property="TribeViewModel"
+                              Title="Tribe"
+                              Sortable="true"
+                              Filterable="true"
+                              MinWidth="150px"
+                              Width="150px">
+
+            <Template Context="projectViewModel">
+                @projectViewModel.TribeViewModel!.Name
+            </Template>
+        </RadzenDataGridColumn>
 
         <RadzenDataGridColumn TItem="ProjectViewModel"
                               Title="Programmiersprache/n"
-                              Property="ProgrammingLanguages"
+                              Property="ProgrammingLanguageViewModels"
                               Sortable="false"
                               Filterable="true"
                               MinWidth="170px"
                               Width="200px">
             <Template Context="projectViewModel">
-                @foreach (string programmingLanguage in projectViewModel.ProgrammingLanguages)
+                @foreach (string programmingLanguage in projectViewModel.ProgrammingLanguageViewModels.Select(model => model.Name))
                 {
                     @string.Join(",", programmingLanguage)
-                    <br />
+                    <br/>
                 }
             </Template>
         </RadzenDataGridColumn>
+
         <RadzenDataGridColumn TItem="ProjectViewModel" Context="projectViewModel"
                               Filterable="false"
                               Sortable="false"

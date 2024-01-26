@@ -64,12 +64,14 @@ public class ProjectService : IProjectService
             return null;
         }
 
-        this.projectMapper.Map(project, projectUpdateDto);
+        project  = this.projectMapper.Map(project, projectUpdateDto);
         await this.projectRepository.UpdateAsync(project);
+
+        project = await this.projectRepository.GetByIdAsync(projectUpdateDto.Id);
 
         return this.projectDtoMapper.Map(project);
     }
-
+    
     private async Task EnsureUserExists(UserCreateDto userDto)
     {
         User user = this.userMapper.Map(userDto);

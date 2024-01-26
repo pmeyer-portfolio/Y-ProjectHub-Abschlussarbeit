@@ -1,16 +1,15 @@
 ﻿@using ProjectHub.Blazor.Components.DataGrids
-
 <Div Class="rz-p-0 rz-p-md-12">
     <RadzenRow Gap="1rem">
         <RadzenColumn Size="12" SizeSM="6">
             <RadzenStack>
                 <DataAnnotationsValidator/>
                 <RadzenFormField Text="Titel" Variant="Variant.Outlined">
-                    <RadzenTextBox @bind-Value="@ProjectCreateDto.Title"/>
+                    <RadzenTextBox Change="OnTitleChange"/>
                 </RadzenFormField>
                 <DataAnnotationsValidator/>
                 <RadzenFormField Text="Beschreibung" Variant="Variant.Outlined">
-                    <RadzenHtmlEditor style="height: 350px; width: 300px" Change="OnChange">
+                    <RadzenHtmlEditor style="height: 350px; width: 300px" Change="OnDescriptionChange">
                         <RadzenHtmlEditorFontSize/>
                         <RadzenHtmlEditorUndo/>
                         <RadzenHtmlEditorRedo/>
@@ -31,8 +30,12 @@
         </RadzenColumn>
         <RadzenColumn Size="12" SizeSM="6">
             <RadzenStack>
-                <TribeDropDownDataGrid OnTribeIdSelected="HandleTribeSelected"/>
-                <ProgrammingLanguageDropDownDataGrid OnItemSelected="HandleLanguageSelected"/>
+                <RadzenFormField Variant="Variant.Outlined">
+                    <TribeDropDownDataGrid OnTribeSelected="OnTribeChange"/>
+                </RadzenFormField>
+                <RadzenFormField Variant="Variant.Outlined">
+                    <ProgrammingLanguageDropDownDataGrid OnProgrammingLanguagesSelected="OnProgrammingLanguageChange"/>
+                </RadzenFormField>
                 <RadzenButton Text="Erstellen"
                               Icon="add"
                               ButtonType="ButtonType.Submit"

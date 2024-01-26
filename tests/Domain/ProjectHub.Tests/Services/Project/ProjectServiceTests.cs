@@ -3,6 +3,7 @@
 using FluentAssertions;
 using NSubstitute;
 using ProjectHub.Abstractions.DTOs.Project;
+using ProjectHub.Abstractions.DTOs.Tribe;
 using ProjectHub.Abstractions.DTOs.User;
 using ProjectHub.Abstractions.IMappers.Project;
 using ProjectHub.Abstractions.IMappers.User;
@@ -58,7 +59,13 @@ public class ProjectServiceTests
                 FirstName = "Test FirstName",
                 LastName = "Test LastName",
                 Email = "test@User.com"
-            }
+            },
+            TribeDto = new TribeDto()
+            {
+                Id = 1,
+                Name = "Test Tribe"
+            },
+            Status = "New"
         };
     }
 
@@ -79,7 +86,7 @@ public class ProjectServiceTests
 
     private static ProjectUpdateDto GetProjectUpdateDto()
     {
-        return new ProjectUpdateDto { Id = 1, Status = "New" };
+        return new ProjectUpdateDto { Id = 1, Status = "New", TribeId = 1};
     }
 
     [Test]
@@ -106,7 +113,8 @@ public class ProjectServiceTests
         Project project = GetTestProject();
         ProjectDto projectDto = GetTestProjectDto();
 
-        this.projectRepository.GetByIdAsync(updateDto.Id).Returns(project);
+        this.projectRepository.GetByIdAsync(updateDto.Id).Returns(project, project); 
+        this.projectMapper.Map(project, updateDto).Returns(project);
         this.projectDtoMapper.Map(project).Returns(projectDto);
 
         // Act
@@ -114,10 +122,10 @@ public class ProjectServiceTests
 
         // Assert
         result.Should().BeEquivalentTo(projectDto);
-        await this.projectRepository.Received(1).UpdateAsync(project);
-        this.projectMapper.Received(1).Map(project, updateDto);
+        await this.projectRepository.Received(1).UpdateAsync(project); 
+        this.projectMapper.Received(1).Map(project, updateDto); 
+        await this.projectRepository.Received(2).GetByIdAsync(updateDto.Id);
     }
-
 
     [Test]
     public async Task GetAllProjectsAsync_WhenNoProjectsExist_ReturnsEmptyList()

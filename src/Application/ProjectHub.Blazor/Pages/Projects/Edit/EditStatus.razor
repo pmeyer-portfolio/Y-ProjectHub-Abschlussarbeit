@@ -1,0 +1,49 @@
+﻿@using ProjectHub.Blazor.Constants
+@using ProjectHub.Blazor.Components.DataGrids
+@attribute [Route(ProjectHubRoute.EditStatus)]
+@inherits BaseEdit
+
+<RadzenStack>
+    <RadzenText TextStyle="TextStyle.Overline"
+                Class="rz-mt-2 rz-my-0"
+                Style="color: var(--rz-text-tertiary-color);"
+                Text="Neuen Status wählen"/>
+    <StatusDropDownDataGrid OnStatusSelected="HandleItemSelected"
+                            CurrentValue="@ProjectDetailsViewModel.Status">
+
+    </StatusDropDownDataGrid>
+    <RadzenRow>
+        <RadzenColumn>
+            <RadzenText TextStyle="TextStyle.Overline"
+                        Class="rz-mt-2 rz-my-0"
+                        Style="color: var(--rz-text-tertiary-color);"
+                        Text="Aktueller Status"/>
+            <RadzenText TextStyle="TextStyle.Body1"
+                        Class="rz-text-truncate">@DeprecatedStatus</RadzenText>
+        </RadzenColumn>
+        <RadzenColumn>
+            <RadzenText TextStyle="TextStyle.Overline"
+                        Class="rz-mt-2 rz-my-0"
+                        Style="color: var(--rz-text-tertiary-color);"
+                        Text="Aktualisierter Status"/>
+            <RadzenText TextStyle="TextStyle.Body1"
+                        Class="rz-text-truncate">
+                @UpdatedStatus
+            </RadzenText>
+
+        </RadzenColumn>
+    </RadzenRow>
+    <RadzenButton ButtonType="ButtonType.Submit"
+                  ButtonStyle="ButtonStyle.Primary"
+                  Click="OnOkClick"
+                  Text="Ok"/>
+</RadzenStack>
+
+<style>
+    .edit-status-dialog-position {
+        position: fixed;
+        top: 20%;
+        left: 60%;
+        z-index: 1050;
+    }
+</style>

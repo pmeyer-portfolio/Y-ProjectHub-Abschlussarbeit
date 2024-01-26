@@ -17,25 +17,57 @@ public class ProjectMapperTests
 
     private ProjectMapper projectMapper;
 
+    private static Project CreateTestProject()
+    {
+        return new Project
+        {
+            Id = 1,
+            Title = "Test Project",
+            Description = "Test Description",
+            Status = ProjectStatus.New,
+            TribeId = 1,
+            projectProgrammingLanguages = new List<ProjectProgrammingLanguages>
+            {
+                new()
+                {
+                    ProjectId = 1,
+                    ProgrammingLanguageId = 1
+                }
+            },
+        };
+    }
+
+    private static ProjectUpdateDto CreateTeProjectUpdateDto()
+    {
+        return new ProjectUpdateDto
+        {
+            Id = 2,
+            Title = "Test Project updated",
+            Description = "Test Description updated",
+            Status = ProjectStatus.InProgress,
+            ProgrammingLanguages = new List<int> { 1, 2 },
+            TribeId = 2
+        };
+    }
+
     [Test]
-    [TestCase("Status update")]
-    public void Map_UpdatesProjectFromDto(string update)
+    public void Map_ShouldClearAndAddValidProgrammingLanguages()
     {
         // Arrange
-        Project project = new()
-        {
-            Title = "Test title",
-            Description = "Test description",
-            Status = "New"
-        };
-        ProjectUpdateDto projectUpdateDto = new() { Status = update};
+        const int firstLanguageId = 1;
+        const int secondLanguageId = 2;
+        Project project = CreateTestProject();
+        ProjectUpdateDto projectUpdateDto = CreateTeProjectUpdateDto();
+        projectUpdateDto.ProgrammingLanguages[0] = firstLanguageId;
+        projectUpdateDto.ProgrammingLanguages[1] = secondLanguageId;
 
-        // Act
-        Project result = this.projectMapper.Map(project, projectUpdateDto);
+        // Action
+        Project updatedProject = this.projectMapper.Map(project, projectUpdateDto);
 
         // Assert
-        result.Should().BeSameAs(project);
-        result.Status.Should().Be(update);
+        updatedProject.projectProgrammingLanguages.Should().HaveCount(2);
+        updatedProject.projectProgrammingLanguages.Should().Contain(pl => pl.ProgrammingLanguageId == firstLanguageId);
+        updatedProject.projectProgrammingLanguages.Should().Contain(pl => pl.ProgrammingLanguageId == secondLanguageId);
     }
 
     [Test]
@@ -152,5 +184,23 @@ public class ProjectMapperTests
         results[0].Description.Should().Be(dtos.First().Description);
         results[0].TribeId.Should().Be(dtos.First().TribeId);
         results[0].projectProgrammingLanguages.Should().HaveCount(dtos.First().Languages.Count);
+    }
+
+    [Test]
+    public void MapProjectUpdateDtoToProject_ReturnsProjectWithCorrectProperties()
+    {
+        // Arrange
+        ProjectUpdateDto projectUpdateDto = CreateTeProjectUpdateDto();
+        Project project = CreateTestProject();
+
+        // Act
+        Project updatedProject = this.projectMapper.Map(project, projectUpdateDto);
+
+        // Assert
+        updatedProject.Id.Should().Be(projectUpdateDto.Id);
+        updatedProject.Title.Should().Be(projectUpdateDto.Title);
+        updatedProject.Description.Should().Be(projectUpdateDto.Description);
+        updatedProject.Status.Should().Be(projectUpdateDto.Status);
+        updatedProject.TribeId.Should().Be(projectUpdateDto.TribeId);
     }
 }

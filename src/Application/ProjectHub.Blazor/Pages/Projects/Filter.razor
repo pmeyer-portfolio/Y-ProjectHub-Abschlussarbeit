@@ -28,8 +28,10 @@
                                 Placeholder="@PlaceHolder.StatusFilter"
                                 FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
                                 AllowSorting="true"
-                                Data="Enum.GetValues(typeof(ProjectStatus)).Cast<ProjectStatus>().Select(e => e.GetDescription()).ToList()"
+                                Data="ProjectStatusViewModels"
                                 AllowClear="true"
+                                TextProperty="Name"
+                                ValueProperty="Name"
                                 @bind-Value="statusFilterValue"
                                 Change="@(args => OnValueChange(args))" />
     </RadzenFormField>

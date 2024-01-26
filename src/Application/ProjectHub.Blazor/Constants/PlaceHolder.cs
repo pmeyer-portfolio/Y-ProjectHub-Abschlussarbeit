@@ -10,5 +10,5 @@ public abstract class PlaceHolder
     public const string ProgrammingLanguageFilter = "Programmiersprache...";
     public const string StatusFilter = "Status...";
     public const string SpecificDateFilter = "Datum: ";
-    
+    public const string NewTitle = "Neuer Titel";
 }

@@ -3,7 +3,8 @@
 using Microsoft.AspNetCore.Components;
 using ProjectHub.Blazor.Interfaces;
 using ProjectHub.Blazor.Models;
-using ProjectHub.Blazor.Services.Contracts;
+using ProjectHub.Blazor.Models.Project;
+using ProjectHub.Blazor.Services.Project.Interfaces;
 
 public partial class Index : IObserver
 {

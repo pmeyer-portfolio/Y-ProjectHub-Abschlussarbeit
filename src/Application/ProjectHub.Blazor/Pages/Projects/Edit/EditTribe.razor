@@ -1,0 +1,52 @@
+﻿@using ProjectHub.Blazor.Constants
+@using ProjectHub.Blazor.Components.DataGrids
+@attribute [Route(ProjectHubRoute.EditTribe)]
+@inherits BaseEdit
+
+<RadzenStack>
+    <RadzenText TextStyle="TextStyle.Overline"
+                Class="rz-mt-2 rz-my-0"
+                Style="color: var(--rz-text-tertiary-color);"
+                Text="Neuen Tribe wählen"/>
+
+    <TribeDropDownDataGrid OnTribeSelected="HandleItemSelected"
+                           CurrentValue="@ProjectDetailsViewModel.TribeViewModel.Name">
+    </TribeDropDownDataGrid>
+
+    <RadzenRow>
+        <RadzenColumn>
+            <RadzenText TextStyle="TextStyle.Overline"
+                        Class="rz-mt-2 rz-my-0"
+                        Style="color: var(--rz-text-tertiary-color);"
+                        Text="Aktueller Tribe"/>
+            <RadzenText TextStyle="TextStyle.Body1"
+                        Class="rz-text-truncate">
+                @DeprecatedTribeName
+            </RadzenText>
+        </RadzenColumn>
+        <RadzenColumn>
+            <RadzenText TextStyle="TextStyle.Overline"
+                        Class="rz-mt-2 rz-my-0"
+                        Style="color: var(--rz-text-tertiary-color);"
+                        Text="Aktualisierter Tribe"/>
+            <RadzenText TextStyle="TextStyle.Body1"
+                        Class="rz-text-truncate">
+                @UpdatedTribeName
+            </RadzenText>
+
+        </RadzenColumn>
+    </RadzenRow>
+    <RadzenButton ButtonType="ButtonType.Submit"
+                  ButtonStyle="ButtonStyle.Primary"
+                  Click="OnOkClick"
+                  Text="Ok"/>
+</RadzenStack>
+
+<style>
+    .edit-tribe-dialog-position {
+        position: fixed;
+        top: 20%;
+        left: 60%;
+        z-index: 1050;
+    }
+</style>

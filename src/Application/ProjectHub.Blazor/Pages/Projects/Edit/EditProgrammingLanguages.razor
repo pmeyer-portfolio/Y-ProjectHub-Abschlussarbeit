@@ -1,0 +1,57 @@
+﻿@attribute [Route(ProjectHubRoute.EditProgrammingLanguages)]
+@using ProjectHub.Blazor.Constants
+@using ProjectHub.Blazor.Models.ProgrammingLanguage
+@inherits BaseEdit
+
+<RadzenStack>
+    <RadzenText TextStyle="TextStyle.Overline"
+                Class="rz-mt-2 rz-my-0"
+                Style="color: var(--rz-text-tertiary-color);"
+                Text="Neuen Programmiersprache wählen"/>
+        
+    <RadzenDropDownDataGrid TValue="IList<ProgrammingLanguageViewModel>"
+                            Multiple="true"
+                            Placeholder="Wähle keine oder mehrere Programmiersprachen."
+                            AllowRowSelectOnRowClick="true"
+                            FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                            AllowSorting="true"
+                            Data="@ProgrammingLanguages"
+                            TextProperty="Name"
+                            AllowClear="true"
+                            Value="ProjectDetailsViewModel.ProgrammingLanguageViewModels"
+                            ValueChanged="OnValueChanged"
+                            Change="OnChanged"/>
+    <RadzenRow>
+        <RadzenColumn>
+            <RadzenText TextStyle="TextStyle.Overline"
+                        Class="rz-mt-2 rz-my-0"
+                        Style="color: var(--rz-text-tertiary-color);"
+                        Text="Aktuelle Programmiersprache/n"/>
+            <RadzenText TextStyle="TextStyle.Body1"
+                        Class="rz-text-truncate">
+                @DeprecatedValueNames
+            </RadzenText>
+            <RadzenText TextStyle="TextStyle.Overline"
+                        Class="rz-mt-2 rz-my-0"
+                        Style="color: var(--rz-text-tertiary-color);"
+                        Text="Aktualisierter Programmiersprache/n"/>
+            <RadzenText TextStyle="TextStyle.Body1"
+                        Class="rz-text-truncate">
+                @UpdatedValueNames
+            </RadzenText>
+        </RadzenColumn>
+    </RadzenRow>
+    <RadzenButton ButtonType="ButtonType.Submit"
+                  ButtonStyle="ButtonStyle.Primary"
+                  Click="OnOkClick"
+                  Text="Ok"/>
+</RadzenStack>
+
+<style>
+    .edit-programmingLanguages-dialog-position {
+        position: fixed;
+        top: 20%;
+        left: 60%;
+        z-index: 1050;
+    }
+</style>

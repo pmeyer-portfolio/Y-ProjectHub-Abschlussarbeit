@@ -27,8 +27,7 @@
                       Style="border: var(--rz-grid-cell-border)">
             <RadzenText TextStyle="TextStyle.Subtitle1"
                         Text="Kontakt"/>
-            <RadzenStack Orientation="Orientation.Horizontal"
-                         AlignItems="AlignItems.Center">
+            <RadzenStack Gap="0" Class="rz-text-truncate">
                 <RadzenStack Gap="0" Class="rz-text-truncate">
                     <RadzenText TextStyle="TextStyle.Overline"
                                 Class="rz-mt-2 rz-my-0"
@@ -37,14 +36,24 @@
                     <RadzenText TextStyle="TextStyle.Body1"
                                 Class="rz-text-truncate"
                                 Text="@(ProjectDetailsViewModel?.CreatedBy)"/>
-
                     <RadzenText TextStyle="TextStyle.Overline"
                                 Class="rz-mt-4 rz-mb-0"
                                 Style="color: var(--rz-text-tertiary-color);"
                                 Text="Tribe"/>
-                    <RadzenText TextStyle="TextStyle.Body1"
-                                Class="rz-text-truncate"
-                                Text="@ProjectDetailsViewModel?.TribeName"/>
+                    <RadzenStack Orientation="Orientation.Horizontal"
+                                 JustifyContent="JustifyContent.SpaceBetween"
+                                 AlignItems="AlignItems.Center">
+                        <RadzenText Text="@(ProjectDetailsViewModel?.TribeViewModel.Name)"
+                                    TextStyle="TextStyle.Body1"
+                                    TextAlign="TextAlign.Left"
+                                    Class="rz-text-truncate"/>
+                        <RadzenButton IconColor="white"
+                                      ButtonStyle="ButtonStyle.Info"
+                                      Size="ButtonSize.ExtraSmall"
+                                      Icon="edit"
+                                      Click="() => OpenEditDialog(nameof(ProjectDetailsViewModel.TribeViewModel.Name))">
+                        </RadzenButton>
+                    </RadzenStack>
                     <RadzenText TextStyle="TextStyle.Overline"
                                 Class="rz-mt-4 rz-mb-0"
                                 Style="color: var(--rz-text-tertiary-color);"
@@ -73,11 +82,10 @@
                                 TextStyle="TextStyle.Body1"
                                 TextAlign="TextAlign.Left"
                                 Class="rz-text-truncate"/>
-
                     <RadzenButton IconColor="white"
                                   ButtonStyle="ButtonStyle.Info"
                                   Size="ButtonSize.ExtraSmall"
-                                  Click="() => OpenEditDialog(nameof(ProjectDetailsViewModel.Status), ProjectDetailsViewModel.Status)"
+                                  Click="() => OpenEditDialog(nameof(ProjectDetailsViewModel.Status))"
                                   Icon="edit">
                     </RadzenButton>
                 </RadzenStack>
@@ -89,47 +97,88 @@
                 <RadzenText TextStyle="TextStyle.Body1"
                             Class="rz-text-truncate"
                             Text="@($"{ProjectDetailsViewModel?.CreatedAt:yy. MMMM yyyy}")"/>
-                <RadzenText TextStyle="TextStyle.Overline"
-                            Class="rz-mt-2 rz-my-0"
-                            Style="color: var(--rz-text-tertiary-color);"
-                            Text="Programmiersprache/n"/>
-                @if (ProjectDetailsViewModel?.ProgrammingLanguages != null)
+
+                <RadzenStack Orientation="Orientation.Horizontal"
+                             JustifyContent="JustifyContent.SpaceBetween"
+                             AlignItems="AlignItems.Center">
+                    <RadzenText TextStyle="TextStyle.Overline"
+                                Class="rz-mt-2 rz-my-0"
+                                Style="color: var(--rz-text-tertiary-color);"
+                                Text="Programmiersprache/n"/>
+                    <RadzenButton IconColor="white"
+                                  ButtonStyle="ButtonStyle.Info"
+                                  Size="ButtonSize.ExtraSmall"
+                                  Icon="edit"
+                                  Click="() => OpenEditDialog(nameof(ProjectDetailsViewModel.ProgrammingLanguageViewModels))">
+                    </RadzenButton>
+                </RadzenStack>
+                
+                @if (ProjectDetailsViewModel?.ProgrammingLanguageViewModels.Any() == true)
                 {
-                    foreach (string language in ProjectDetailsViewModel.ProgrammingLanguages)
-                    {
-                        <RadzenText TextStyle="TextStyle.Body1"
-                                    Class="rz-text-truncate"
-                                    Text="@language"/>
-                    }
+                    <RadzenStack Orientation="Orientation.Horizontal"
+                                 JustifyContent="JustifyContent.SpaceBetween"
+                                 AlignItems="AlignItems.Center">
+                        <div>
+                            @foreach (string language in ProjectDetailsViewModel.ProgrammingLanguageViewModels.Select(model => model.Name).ToList())
+                            {
+                                <RadzenText Text="@language"
+                                            TextStyle="TextStyle.Body1"
+                                            TextAlign="TextAlign.Left"
+                                            Class="rz-text-truncate"/>
+                            }
+                        </div>
+                    </RadzenStack>
                 }
+
             </RadzenStack>
         </RadzenColumn>
     </RadzenRow>
-    <RadzenColumn Size="12"
-                  SizeMD="6"
-                  Class="rz-p-4 rz-border-radius-1"
-                  Style="border: var(--rz-grid-cell-border)">
-        <RadzenStack Orientation="Orientation.Vertical"
-                     JustifyContent="JustifyContent.SpaceBetween"
-                     AlignItems="AlignItems.Start">
-            <RadzenText TextStyle="TextStyle.Overline"
-                        Class="rz-mt-2 rz-my-0"
-                        Style="color: var(--rz-text-tertiary-color);"
-                        Text="Titel"/>
-            <RadzenText TextStyle="TextStyle.Body2"
-                        TextAlign="TextAlign.Justify">
-                @ProjectDetailsViewModel?.Title
-            </RadzenText>
-            <RadzenText TextStyle="TextStyle.Overline"
-                        Class="rz-mt-2 rz-my-0"
-                        Style="color: var(--rz-text-tertiary-color);"
-                        Text="Beschreibung"/>
-            <RadzenText TextStyle="TextStyle.Body2"
-                        TextAlign="TextAlign.Justify">
-                @ProjectDetailsViewModel?.Description
-            </RadzenText>
-        </RadzenStack>
-    </RadzenColumn>
+    <RadzenRow>
+        <RadzenColumn Size="12"
+                      SizeMD="12"
+                      Class="rz-p-4 rz-border-radius-1"
+                      Style="border: var(--rz-grid-cell-border)">
+            <RadzenStack Gap="0" Class="rz-text-truncate">
+                <RadzenText TextStyle="TextStyle.Overline"
+                            Class="rz-mt-2 rz-my-0"
+                            Style="color: var(--rz-text-tertiary-color);"
+                            Text="Titel"/>
+                <RadzenStack Orientation="Orientation.Horizontal"
+                             JustifyContent="JustifyContent.SpaceBetween"
+                             AlignItems="AlignItems.Center">
+                    <RadzenText Text="@(ProjectDetailsViewModel?.Title)"
+                                TextStyle="TextStyle.Body1"
+                                TextAlign="TextAlign.Left"
+                                Class="rz-text-truncate"/>
+                    <RadzenButton IconColor="white"
+                                  ButtonStyle="ButtonStyle.Info"
+                                  Size="ButtonSize.ExtraSmall"
+                                  Icon="edit"
+                                  Click="() => OpenEditDialog(nameof(ProjectDetailsViewModel.Title))">
+                    </RadzenButton>
+                </RadzenStack>
+                <RadzenText TextStyle="TextStyle.Overline"
+                            Class="rz-mt-2 rz-my-0"
+                            Style="color: var(--rz-text-tertiary-color);"
+                            Text="Beschreibung"/>
+                <RadzenStack Orientation="Orientation.Horizontal"
+                             JustifyContent="JustifyContent.SpaceBetween"
+                             AlignItems="AlignItems.Center">
+                    <RadzenText TextStyle="TextStyle.Body1"
+                                TextAlign="TextAlign.Justify"
+                                Class="rz-text-truncate">
+                        @ProjectDetailsViewModel?.Description
+                    </RadzenText>
+                    <RadzenButton IconColor="white"
+                                  ButtonStyle="ButtonStyle.Info"
+                                  Size="ButtonSize.ExtraSmall"
+                                  Icon="edit"
+                                  Click="() => OpenEditDialog(nameof(ProjectDetailsViewModel.Description))">
+                    </RadzenButton>
+                </RadzenStack>
+            </RadzenStack>
+        </RadzenColumn>
+    </RadzenRow>
     <RadzenStack Orientation="Orientation.Horizontal"
                  JustifyContent="JustifyContent.End"
                  Gap="1.0rem">
