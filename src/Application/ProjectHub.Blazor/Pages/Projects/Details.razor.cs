@@ -1,6 +1,8 @@
 ﻿namespace ProjectHub.Blazor.Pages.Projects;
 
+using System.Security.Claims;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using ProjectHub.Blazor.Constants;
 using ProjectHub.Blazor.Initializer;
@@ -12,6 +14,9 @@ using Radzen;
 
 public partial class Details
 {
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthState { get; set; } = null!;
+
     private ProjectUpdateModel ProjectUpdateModel { get; set; } = null!;
 
     private ProjectDetailsViewModel ProjectDetailsViewModel { get; set; } = null!;
@@ -31,6 +36,8 @@ public partial class Details
     [Inject]
     private IEditDialogInitializer EditDialogInitializer { get; set; } = null!;
 
+    private bool EditIconsVisible { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
         this.ProjectDetailsViewModel = await this.ProjectService.LoadProjectDetails(this.ProjectId);
@@ -38,6 +45,33 @@ public partial class Details
 
         this.EditDialogInitializer.SetProjectDetailsViewModel(this.ProjectDetailsViewModel);
         this.EditDialogInitializer.SetProjectUpdateModel(this.ProjectUpdateModel);
+
+        await this.ChangeEditIconVisibility();
+    }
+
+    private async Task ChangeEditIconVisibility()
+    {
+        ClaimsPrincipal user = await this.GetClaimsPrincipal();
+
+        string? userEmail = user.FindFirst(c => c.Type == PrincipalAttributes.Email)?.Value;
+
+        if (this.UserIsInRole(user, userEmail))
+        {
+            this.EditIconsVisible = true;
+        }
+    }
+
+    private bool UserIsInRole(ClaimsPrincipal user, string? userEmail)
+    {
+        return user.IsInRole(Roles.SuperAdmin) ||
+               (user.IsInRole(Roles.ProjectAdmin) && userEmail == this.ProjectDetailsViewModel.CreatorEmail);
+    }
+
+    private async Task<ClaimsPrincipal> GetClaimsPrincipal()
+    {
+        AuthenticationState authState = await this.AuthState;
+        ClaimsPrincipal user = authState.User;
+        return user;
     }
 
     private async Task OpenEditDialog(string propertyName)

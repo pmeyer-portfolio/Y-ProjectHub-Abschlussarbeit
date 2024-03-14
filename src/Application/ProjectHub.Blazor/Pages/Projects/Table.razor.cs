@@ -1,8 +1,8 @@
 ﻿namespace ProjectHub.Blazor.Pages.Projects;
 
 using Microsoft.AspNetCore.Components;
-using ProjectHub.Blazor.Models;
 using ProjectHub.Blazor.Models.Project;
+using ProjectHub.Blazor.Options;
 using Radzen;
 using Radzen.Blazor;
 

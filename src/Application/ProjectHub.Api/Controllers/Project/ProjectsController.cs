@@ -1,14 +1,11 @@
 namespace ProjectHub.Api.Controllers.Project;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using ProjectHub.Abstractions.DTOs.Project;
 using ProjectHub.Abstractions.IService.Project;
 
-//[Authorize]
 [ApiController]
 [Route("api/[controller]")]
-//[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
 public class ProjectsController : ControllerBase
 {
     private readonly IProjectService projectService;
@@ -61,6 +58,7 @@ public class ProjectsController : ControllerBase
         {
             return this.NotFound();
         }
+
         return this.Ok(projectDto);
     }
 }

@@ -1,12 +1,15 @@
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using ProjectHub.Blazor;
+using ProjectHub.Blazor.Factories;
 using ProjectHub.Blazor.Initializer;
 using ProjectHub.Blazor.Interfaces;
 using ProjectHub.Blazor.Mappers.ProgrammingLanguage;
 using ProjectHub.Blazor.Mappers.Project;
 using ProjectHub.Blazor.Mappers.Project.Interfaces;
 using ProjectHub.Blazor.Mappers.Tribe;
+using ProjectHub.Blazor.Models;
 using ProjectHub.Blazor.Services;
 using ProjectHub.Blazor.Services.Base;
 using ProjectHub.Blazor.Services.ProgrammingLanguage;
@@ -41,7 +44,7 @@ builder.Services.AddScoped<IProgrammingLanguageService, ProgrammingLanguageServi
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<IProjectFilterService, ProjectFilterService>();
 builder.Services.AddScoped<IProjectUpdateService, ProjectUpdateService>();
-builder.Services.AddScoped<INotificationServiceWrapper, NotificationServiceWrapperWrapper>();
+builder.Services.AddScoped<INotificationServiceWrapper, NotificationServiceWrapper>();
 
 builder.Services.AddScoped<IProjectHubDataInitializer, ProjectHubDataInitializer>();
 builder.Services.AddScoped<IEditDialogInitializer, EditDialogInitializer>();
@@ -49,10 +52,11 @@ builder.Services.AddScoped<IEditDialogInitializer, EditDialogInitializer>();
 builder.Services.AddScoped<NotificationService>();
 
 builder.Services.AddRadzenComponents();
-builder.Services.AddMsalAuthentication(options =>
+builder.Services.AddMsalAuthentication<RemoteAuthenticationState, CustomUserAccount>(options =>
 {
     builder.Configuration.Bind("AzureAd", options.ProviderOptions.Authentication);
     options.ProviderOptions.LoginMode = "popup";
-});
+    options.UserOptions.RoleClaim = "appRole";
+}).AddAccountClaimsPrincipalFactory<RemoteAuthenticationState, CustomUserAccount, CustomAccountFactory>();
 
 await builder.Build().RunAsync();
