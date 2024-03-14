@@ -1,4 +1,5 @@
-﻿@inherits LayoutComponentBase
+﻿@using ProjectHub.Blazor.Constants
+@inherits LayoutComponentBase
 
 <RadzenLayout>
     <RadzenHeader>
@@ -16,12 +17,16 @@
     </RadzenHeader>
     <RadzenSidebar @bind-Expanded="@(sidebar1Expanded)">
         <RadzenPanelMenu>
-            <RadzenPanelMenuItem Text="Projekt erstellen"
-                                 Icon="add_task"
-                                 Click="ToCreateProjectsPage"/>
+            <AuthorizeView Roles="@Roles.SuperAdmin, @Roles.ProjectAdmin">
+                <RadzenPanelMenuItem Text="Projekt erstellen"
+                                     Icon="add_task"
+                                     Click="ToCreateProjectsPage"/>
+            </AuthorizeView>
+            <AuthorizeView Roles="@Roles.User">
             <RadzenPanelMenuItem Text="Projekte anzeigen "
                                  Icon="format_list_bulleted"
                                  Click="ToIndexProjectsPage"/>
+            </AuthorizeView>
         </RadzenPanelMenu>
     </RadzenSidebar>
     <RadzenBody>
@@ -49,7 +54,7 @@
         background: linear-gradient(333deg, rgba(184,21,27,1) 40%, rgba(204,17,46,0.7876400560224089) 80%);
     }
 
-    .rz-growl-image.rzi-times {
+    .rz-growl-image.rzi-times { 
         color: #ffffff;
     }
 

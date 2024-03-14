@@ -72,9 +72,9 @@ public partial class Create
 
         if (user.Identity is not null && user.Identity.IsAuthenticated)
         {
-            userCreateDto.Email = user.FindFirst(c => c.Type == "email")?.Value;
-            userCreateDto.FirstName = user.FindFirst(c => c.Type == "family_name")?.Value;
-            userCreateDto.LastName = user.FindFirst(c => c.Type == "given_name")?.Value;
+            userCreateDto.Email = user.FindFirst(c => c.Type == PrincipalAttributes.Email)?.Value;
+            userCreateDto.FirstName = user.FindFirst(c => c.Type == PrincipalAttributes.FamilyName)?.Value;
+            userCreateDto.LastName = user.FindFirst(c => c.Type == PrincipalAttributes.GivenName)?.Value;
         }
 
         this.projectCreateDto.User = userCreateDto;

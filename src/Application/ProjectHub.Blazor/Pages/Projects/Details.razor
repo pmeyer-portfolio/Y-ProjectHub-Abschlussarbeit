@@ -51,6 +51,7 @@
                                       ButtonStyle="ButtonStyle.Info"
                                       Size="ButtonSize.ExtraSmall"
                                       Icon="edit"
+                                      Visible="@EditIconsVisible"
                                       Click="() => OpenEditDialog(nameof(ProjectDetailsViewModel.TribeViewModel.Name))">
                         </RadzenButton>
                     </RadzenStack>
@@ -85,8 +86,9 @@
                     <RadzenButton IconColor="white"
                                   ButtonStyle="ButtonStyle.Info"
                                   Size="ButtonSize.ExtraSmall"
-                                  Click="() => OpenEditDialog(nameof(ProjectDetailsViewModel.Status))"
-                                  Icon="edit">
+                                  Icon="edit"
+                                  Visible="@EditIconsVisible"
+                                  Click="() => OpenEditDialog(nameof(ProjectDetailsViewModel.Status))">
                     </RadzenButton>
                 </RadzenStack>
 
@@ -109,10 +111,11 @@
                                   ButtonStyle="ButtonStyle.Info"
                                   Size="ButtonSize.ExtraSmall"
                                   Icon="edit"
+                                  Visible="@EditIconsVisible"
                                   Click="() => OpenEditDialog(nameof(ProjectDetailsViewModel.ProgrammingLanguageViewModels))">
                     </RadzenButton>
                 </RadzenStack>
-                
+
                 @if (ProjectDetailsViewModel?.ProgrammingLanguageViewModels.Any() == true)
                 {
                     <RadzenStack Orientation="Orientation.Horizontal"
@@ -154,6 +157,7 @@
                                   ButtonStyle="ButtonStyle.Info"
                                   Size="ButtonSize.ExtraSmall"
                                   Icon="edit"
+                                  Visible="@EditIconsVisible"
                                   Click="() => OpenEditDialog(nameof(ProjectDetailsViewModel.Title))">
                     </RadzenButton>
                 </RadzenStack>
@@ -173,6 +177,7 @@
                                   ButtonStyle="ButtonStyle.Info"
                                   Size="ButtonSize.ExtraSmall"
                                   Icon="edit"
+                                  Visible="@EditIconsVisible"
                                   Click="() => OpenEditDialog(nameof(ProjectDetailsViewModel.Description))">
                     </RadzenButton>
                 </RadzenStack>
@@ -186,10 +191,12 @@
                       Variant="Variant.Flat"
                       ButtonStyle="ButtonStyle.Secondary"
                       Text="Abbrechen"
+                      Visible="@EditIconsVisible"
                       Style="width: 150px"/>
         <RadzenButton Click="@(OnUpdate)"
                       Variant="Variant.Flat"
                       Text="Aktualisieren"
+                      Visible="@EditIconsVisible"
                       Style="width: 150px"/>
     </RadzenStack>
 </RadzenStack>

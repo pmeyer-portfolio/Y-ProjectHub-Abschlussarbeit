@@ -1,5 +1,6 @@
 ﻿namespace ProjectHub.Api.Controllers.Tribe
 {
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using ProjectHub.Abstractions.DTOs.Tribe;
     using ProjectHub.Abstractions.IService.Tribe;

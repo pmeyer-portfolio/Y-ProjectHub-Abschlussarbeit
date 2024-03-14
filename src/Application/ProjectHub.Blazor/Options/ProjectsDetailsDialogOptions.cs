@@ -1,4 +1,4 @@
-﻿namespace ProjectHub.Blazor.Models
+﻿namespace ProjectHub.Blazor.Options
 {
     using Radzen;
 
@@ -71,7 +71,6 @@
         {
             return new DialogOptions
             {
-                
                 Width = "700px",
                 Height = "auto",
                 Resizable = true,

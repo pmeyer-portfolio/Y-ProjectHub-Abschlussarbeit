@@ -1,8 +1,8 @@
 ﻿namespace ProjectHub.Blazor.Initializer;
 
 using ProjectHub.Blazor.Constants;
-using ProjectHub.Blazor.Models;
 using ProjectHub.Blazor.Models.Project;
+using ProjectHub.Blazor.Options;
 using ProjectHub.Blazor.Pages.Projects.Edit;
 using Radzen;
 
