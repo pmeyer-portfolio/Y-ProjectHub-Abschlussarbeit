@@ -17,15 +17,15 @@
     </RadzenHeader>
     <RadzenSidebar @bind-Expanded="@(sidebar1Expanded)">
         <RadzenPanelMenu>
-            <AuthorizeView Roles="@Roles.SuperAdmin, @Roles.ProjectAdmin">
+            <AuthorizeView Roles="@(Roles.SuperAdmin + "," + Roles.ProjectAdmin)">
                 <RadzenPanelMenuItem Text="Projekt erstellen"
                                      Icon="add_task"
                                      Click="ToCreateProjectsPage"/>
             </AuthorizeView>
             <AuthorizeView Roles="@Roles.User">
-            <RadzenPanelMenuItem Text="Projekte anzeigen "
-                                 Icon="format_list_bulleted"
-                                 Click="ToIndexProjectsPage"/>
+                <RadzenPanelMenuItem Text="Projekte anzeigen "
+                                     Icon="format_list_bulleted"
+                                     Click="ToIndexProjectsPage"/>
             </AuthorizeView>
         </RadzenPanelMenu>
     </RadzenSidebar>

@@ -37,7 +37,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         options.TokenValidationParameters.NameClaimType = "name";
     }, options => { builder.Configuration.Bind("AzureAd", options); });
 
-
 builder.Services.AddAuthorization(config =>
 {
     config.AddPolicy("AuthZPolicy", policyBuilder =>
