@@ -26,9 +26,24 @@ using ProjectHub.Validation;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
+//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+//    .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddMicrosoftIdentityWebApi(options =>
+    {
+        builder.Configuration.Bind("AzureAd", options);
+
+        options.TokenValidationParameters.NameClaimType = "name";
+    }, options => { builder.Configuration.Bind("AzureAd", options); });
+
+
+builder.Services.AddAuthorization(config =>
+{
+    config.AddPolicy("AuthZPolicy", policyBuilder =>
+        policyBuilder.Requirements.Add(new ScopeAuthorizationRequirement
+        { RequiredScopesConfigurationKey = "AzureAd:Scopes" }));
+});
 
 builder.Services.AddControllers();
 
